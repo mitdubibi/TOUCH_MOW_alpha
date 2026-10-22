@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
-// Installable app ("Add to Home Screen"). Opens without browser bars, starting at the login page, which sends
-// anyone already logged in straight on.
+// Installable app ("Add to Home Screen"). Opens without browser bars, starting at the login page, which offers
+// anyone already logged in a button to carry on.
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",

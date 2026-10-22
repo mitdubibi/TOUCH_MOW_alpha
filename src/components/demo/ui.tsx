@@ -14,7 +14,7 @@ export function DemoHeader({ title, subtitle, back }: { title: string; subtitle?
         ) : (
           <span className="font-semibold tracking-wide text-sun">TOUCH Meals on Wheels</span>
         )}
-        <Link href="/" className="rounded-full border border-white/40 px-3 py-1 text-xs">
+        <Link href="/demo" className="rounded-full border border-white/40 px-3 py-1 text-xs">
           Switch role
         </Link>
       </div>

@@ -23,7 +23,7 @@ export default function ElderlyLinkPage() {
       <main className="flex flex-1 flex-col items-center justify-center gap-6 p-6 text-center">
         <p className="text-4xl font-bold text-navy">This link does not work.</p>
         <p className="text-2xl text-navy">Please call TOUCH.</p>
-        <Link href="/" className="text-slate-500 underline">
+        <Link href="/demo" className="text-slate-500 underline">
           ‹ Roles
         </Link>
       </main>

@@ -24,8 +24,10 @@ The installed app opens at `/login`.
 - **Organiser**: `organizer@touch` (or `organiser@touch`) logs straight into the `organizer@touch` account, no
   email. Make that account once: `npm run dev-user -- organizer@touch organiser "TOUCH test"`.
 - **Elderly**: `old1@touch` and `old2@touch` open the meal page of two seed households (Blk 501 #03-110 and Blk 518
-  #05-123). The phone remembers it, so the app opens straight there next time. Log in as someone else with
-  `/login?switch=1`.
+  #05-123). The phone remembers it, so the login page shows an **Open my meal page** button next time.
+
+The login page always shows first. If you are already logged in it also shows **Continue as ...** and **Log out**,
+so you can type another login to switch account.
 
 The `@touch` logins have no password, so anyone who knows them gets in. Only ever point them at made-up accounts
 and fake households (see `src/app/login/actions.ts`).
@@ -76,7 +78,7 @@ $$);
 
 ## Demo prototype (no login)
 
-The role picker at `/` and everything under `/demo` use their own `demo_` tables
+`/` goes to `/login`. The role picker at `/demo` and everything under it use their own `demo_` tables
 (`supabase/migrations/0007_demo_shared_data.sql`), so every phone and browser window shares the same data in real time.
 The data is made up and comes from `src/data/mockData.ts`. The first visit fills an empty database, and
 **Reset demo data** (bottom of the organiser **Today** screen) puts everything back to the start. Elderly links

@@ -68,7 +68,7 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
   return (
     <main className="flex flex-1 flex-col bg-white">
       <div className="flex items-center justify-between px-4 pt-4">
-        <Link href="/" className="text-sm text-slate-500 underline">
+        <Link href="/demo" className="text-sm text-slate-500 underline">
           ‹ Roles
         </Link>
         <div className="flex overflow-hidden rounded-full border-2 border-navy text-lg font-bold">
