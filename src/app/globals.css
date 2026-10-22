@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #12263f;
+  --color-navy-light: #1e3a5f;
+  --color-sun: #ffc20e;
+  --color-sun-light: #fff3cc;
+}
+
+/* Light theme only: high contrast outdoors and for elderly users. */
+body {
+  background: #ffffff;
+  color: #0f172a;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* Leaflet pins (built as divIcons in DemoMapInner and RouteMapInner) */
+.map-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.4);
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+}

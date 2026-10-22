@@ -1,0 +1,29 @@
+Date,Session,Block,Unit,Postal Code,Meal Type,Remarks
+15/10/2026,Lunch,Blk 501,#03-110,640501,Normal,
+15/10/2026,Lunch,Blk 501,#07-114,640501,Soft,Knock loudly
+15/10/2026,Lunch,Blk 501,#11-118,640501,Diabetic,
+15/10/2026,Lunch,Blk 502,#02-205,640502,Normal,Ring bell twice
+15/10/2026,Lunch,Blk 502,#09-213,640502,Vegetarian,
+15/10/2026,Lunch,Blk 502,#12-209,640502,Normal,
+15/10/2026,Lunch,Blk 513,#04-301,640513,Soft,
+15/10/2026,Lunch,Blk 513,#04-305,640513,Normal,"Gate unlocked, leave on chair"
+15/10/2026,Lunch,Blk 513,#10-311,640513,Diabetic,
+15/10/2026,Lunch,Blk 516,#01-402,640516,Normal,
+15/10/2026,Lunch,Blk 516,#06-410,640516,Soft,Hard of hearing
+15/10/2026,Lunch,Blk 516,#08-404,640516,Normal,
+15/10/2026,Lunch,Blk 516,#13-412,640516,Vegetarian,
+15/10/2026,Lunch,Blk 518,#05-123,640518,Normal,
+15/10/2026,Lunch,Blk 518,#05-127,640518,Diabetic,No sugar drinks
+15/10/2026,Lunch,Blk 518,#09-131,640518,Soft,
+15/10/2026,Lunch,Blk 652,#02-540,640652,Normal,
+15/10/2026,Lunch,Blk 652,#07-548,640652,Normal,Call before arriving
+15/10/2026,Lunch,Blk 652,#14-544,640652,Soft,
+15/10/2026,Lunch,Blk 653,#03-612,640653,Diabetic,
+15/10/2026,Lunch,Blk 653,#03-616,640653,Normal,
+15/10/2026,Lunch,Blk 653,#11-620,640653,Vegetarian,
+15/10/2026,Lunch,Blk 657,#06-702,640657,Normal,
+15/10/2026,Lunch,Blk 657,#10-706,640657,Soft,Ring bell twice
+15/10/2026,Lunch,Blk 657,#15-710,640657,Normal,
+15/10/2026,Dinner,Blk 501,#07-114,640501,Soft,Knock loudly
+15/10/2026,Dinner,Blk 516,#06-410,640516,Soft,Hard of hearing
+15/10/2026,Dinner,Blk 652,#14-544,640652,Soft,
