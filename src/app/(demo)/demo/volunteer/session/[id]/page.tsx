@@ -8,6 +8,7 @@ import { DemoHeader, ProgressBar, Tabs } from "@/components/demo/ui";
 import { CENTRE, PROBLEM_LABEL, type DemoUnit } from "@/data/mockData";
 import { isDone } from "@/lib/checklist";
 import { sessionWhen } from "@/lib/demo/format";
+import { mealLabel } from "@/lib/meals";
 import { routeFor, sessionById, sessionProgress, statusOf, unitLabel, type ProblemKind } from "@/lib/demo/model";
 
 const STATUS_TEXT = { pending: "", delivered: "Delivered", not_home: "Not home", skipped: "Skipped", cancelled: "Removed" };
@@ -73,7 +74,7 @@ export default function VolunteerSession() {
                       <div className="min-w-0 flex-1">
                         <p className={`text-2xl font-bold ${done ? "text-slate-400" : "text-navy"}`}>{u.unitNo}</p>
                         <p className="mt-0.5 flex flex-wrap items-center gap-1.5 text-sm">
-                          <span className="rounded bg-sun-light px-1.5 font-semibold text-navy">{u.mealType}</span>
+                          <span className="rounded bg-sun-light px-1.5 font-semibold text-navy">{mealLabel(u.mealType)}</span>
                           {STATUS_TEXT[status] && <span className="font-medium text-slate-600">{STATUS_TEXT[status]}</span>}
                         </p>
                         {u.remarks && <p className="mt-1 text-sm text-slate-600">{u.remarks}</p>}

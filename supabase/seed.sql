@@ -35,26 +35,26 @@ on conflict (centre_id, date, slot) do nothing;
 do $$
 declare
   seed jsonb := '[
-    {"postal": "640501", "unit_no": "#03-110", "floor": 3,  "meal_type": "Normal",     "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640501", "unit_no": "#07-114", "floor": 7,  "meal_type": "Soft",       "remarks": "Knock loudly",                     "lang": "en", "dinner": true},
-    {"postal": "640501", "unit_no": "#11-118", "floor": 11, "meal_type": "Diabetic",   "remarks": "",                                 "lang": "zh", "dinner": false},
-    {"postal": "640501", "unit_no": "#12-120", "floor": 12, "meal_type": "Normal",     "remarks": "Ring bell twice",                  "lang": "en", "dinner": false},
-    {"postal": "640502", "unit_no": "#02-205", "floor": 2,  "meal_type": "Normal",     "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640502", "unit_no": "#09-213", "floor": 9,  "meal_type": "Vegetarian", "remarks": "",                                 "lang": "zh", "dinner": true},
-    {"postal": "640502", "unit_no": "#12-209", "floor": 12, "meal_type": "Normal",     "remarks": "Leave on chair outside",           "lang": "en", "dinner": false},
-    {"postal": "640513", "unit_no": "#04-301", "floor": 4,  "meal_type": "Soft",       "remarks": "",                                 "lang": "zh", "dinner": false},
-    {"postal": "640513", "unit_no": "#04-305", "floor": 4,  "meal_type": "Normal",     "remarks": "Gate unlocked, leave on chair",    "lang": "en", "dinner": false},
-    {"postal": "640513", "unit_no": "#10-311", "floor": 10, "meal_type": "Diabetic",   "remarks": "No sugar drinks",                  "lang": "en", "dinner": true},
-    {"postal": "640513", "unit_no": "#13-315", "floor": 13, "meal_type": "Normal",     "remarks": "",                                 "lang": "zh", "dinner": false},
-    {"postal": "640516", "unit_no": "#01-402", "floor": 1,  "meal_type": "Normal",     "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640516", "unit_no": "#06-410", "floor": 6,  "meal_type": "Soft",       "remarks": "Hard of hearing",                  "lang": "zh", "dinner": true},
-    {"postal": "640516", "unit_no": "#13-412", "floor": 13, "meal_type": "Vegetarian", "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640518", "unit_no": "#05-123", "floor": 5,  "meal_type": "Normal",     "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640518", "unit_no": "#05-127", "floor": 5,  "meal_type": "Diabetic",   "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640518", "unit_no": "#09-131", "floor": 9,  "meal_type": "Soft",       "remarks": "Call before arriving",             "lang": "zh", "dinner": true},
-    {"postal": "640524", "unit_no": "#02-540", "floor": 2,  "meal_type": "Normal",     "remarks": "",                                 "lang": "en", "dinner": false},
-    {"postal": "640524", "unit_no": "#07-548", "floor": 7,  "meal_type": "Soft",       "remarks": "Uses walking frame, wait at door", "lang": "zh", "dinner": true},
-    {"postal": "640524", "unit_no": "#14-544", "floor": 14, "meal_type": "Normal",     "remarks": "",                                 "lang": "en", "dinner": false}
+    {"postal": "640501", "unit_no": "#03-110", "floor": 3,  "meal_type": "H-BR",       "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640501", "unit_no": "#07-114", "floor": 7,  "meal_type": "H-M",        "remarks": "Knock loudly",                     "lang": "en", "dinner": true},
+    {"postal": "640501", "unit_no": "#11-118", "floor": 11, "meal_type": "HH",         "remarks": "",                                 "lang": "zh", "dinner": false},
+    {"postal": "640501", "unit_no": "#12-120", "floor": 12, "meal_type": "H-BR",       "remarks": "Ring bell twice",                  "lang": "en", "dinner": false},
+    {"postal": "640502", "unit_no": "#02-205", "floor": 2,  "meal_type": "H-BR",       "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640502", "unit_no": "#09-213", "floor": 9,  "meal_type": "H",          "remarks": "",                                 "lang": "zh", "dinner": true},
+    {"postal": "640502", "unit_no": "#12-209", "floor": 12, "meal_type": "H-BR",       "remarks": "Leave on chair outside",           "lang": "en", "dinner": false},
+    {"postal": "640513", "unit_no": "#04-301", "floor": 4,  "meal_type": "H-M",        "remarks": "",                                 "lang": "zh", "dinner": false},
+    {"postal": "640513", "unit_no": "#04-305", "floor": 4,  "meal_type": "H-BR",       "remarks": "Gate unlocked, leave on chair",    "lang": "en", "dinner": false},
+    {"postal": "640513", "unit_no": "#10-311", "floor": 10, "meal_type": "HH",         "remarks": "No sugar drinks",                  "lang": "en", "dinner": true},
+    {"postal": "640513", "unit_no": "#13-315", "floor": 13, "meal_type": "H-BR",       "remarks": "",                                 "lang": "zh", "dinner": false},
+    {"postal": "640516", "unit_no": "#01-402", "floor": 1,  "meal_type": "H-BR",       "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640516", "unit_no": "#06-410", "floor": 6,  "meal_type": "H-M",        "remarks": "Hard of hearing",                  "lang": "zh", "dinner": true},
+    {"postal": "640516", "unit_no": "#13-412", "floor": 13, "meal_type": "H",          "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640518", "unit_no": "#05-123", "floor": 5,  "meal_type": "H-BR",       "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640518", "unit_no": "#05-127", "floor": 5,  "meal_type": "HH",         "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640518", "unit_no": "#09-131", "floor": 9,  "meal_type": "H-M",        "remarks": "Call before arriving",             "lang": "zh", "dinner": true},
+    {"postal": "640524", "unit_no": "#02-540", "floor": 2,  "meal_type": "H-BR",       "remarks": "",                                 "lang": "en", "dinner": false},
+    {"postal": "640524", "unit_no": "#07-548", "floor": 7,  "meal_type": "H-M",        "remarks": "Uses walking frame, wait at door", "lang": "zh", "dinner": true},
+    {"postal": "640524", "unit_no": "#14-544", "floor": 14, "meal_type": "H-BR",       "remarks": "",                                 "lang": "en", "dinner": false}
   ]';
 begin
   insert into public.units (postal_code, unit_no, floor)

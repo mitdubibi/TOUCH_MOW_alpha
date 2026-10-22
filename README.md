@@ -5,7 +5,7 @@ Next.js 16 + Supabase. All data is fake. See CLAUDE.md for the brief.
 ## Setup
 
 1. **Supabase project** (free, region *Southeast Asia (Singapore)*).
-2. In the Supabase **SQL Editor**, run the files in `supabase/migrations/` in order (`0001` to `0008`), then `supabase/seed.sql`.
+2. In the Supabase **SQL Editor**, run the files in `supabase/migrations/` in order (`0001` to `0009`), then `supabase/seed.sql`.
 3. **Authentication > URL Configuration**: Site URL `http://localhost:3000`, and add
    `http://localhost:3000/auth/confirm` to Redirect URLs.
 4. Copy `.env.example` to `.env.local` and fill in the keys from **Project Settings > API**.
@@ -40,6 +40,13 @@ For the email code to work, in Supabase:
    team, a few per hour. To reach volunteers, turn on custom SMTP, for example Gmail with an app password
    (host `smtp.gmail.com`, port `465`, username = the Gmail address, password = the app password).
 3. The code length is set under **Authentication > Providers > Email** (Email OTP Length, 6 at the shortest).
+
+## Delivery lists
+
+Organiser **Upload list** takes a CSV (our columns, or TOUCH's own sheet saved as CSV) or a photo of the printed
+list. The photo is read on the phone with Tesseract.js (`src/lib/scan/`), then every row is shown for checking before
+upload. Meal types are TOUCH's codes only: H-BR (normal), HH, H, H-M (minced). Made-up samples in TOUCH's layout are in
+`public/samples/`.
 
 ## Scripts
 
@@ -98,4 +105,4 @@ five short tasks, and a **Report a bug** form. Reports are saved in `bug_reports
 (name "TOUCH MOW") and then opens without browser bars, starting at `/login`.
 
 The deployed demo only needs `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (with migrations up to
-`0008` run). The logged-in app also needs the other variables in `.env.example`.
+`0009` run). The logged-in app also needs the other variables in `.env.example`.

@@ -20,7 +20,8 @@
     "papaparse": "^5.7.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

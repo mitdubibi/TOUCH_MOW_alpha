@@ -6,6 +6,7 @@ import { DemoHeader } from "@/components/demo/ui";
 import { CENTRE, sampleCsv, sampleCsvWithMistakes } from "@/data/mockData";
 import { parseDeliveryList } from "@/lib/csv/parseDeliveryList";
 import { formatDate, SLOT_LABEL, toDayMonthYear, todayInSingapore } from "@/lib/dates";
+import { mealLabel } from "@/lib/meals";
 
 export default function UploadDemo() {
   const date = toDayMonthYear(todayInSingapore());
@@ -104,7 +105,7 @@ export default function UploadDemo() {
                   <tr key={r.line} className="border-t border-navy/10">
                     <td className="px-2 py-1.5 font-semibold">{r.block}</td>
                     <td className="px-2 py-1.5">{r.unit}</td>
-                    <td className="px-2 py-1.5">{r.mealType}</td>
+                    <td className="px-2 py-1.5">{mealLabel(r.mealType)}</td>
                     <td className="px-2 py-1.5 text-slate-600">{r.remarks}</td>
                   </tr>
                 ))}

@@ -5,7 +5,7 @@ import { groupByBlock, progress } from "./checklist";
 const item = (id: string, block_no: string, unit_no: string, floor: number): ChecklistItem => ({
   id,
   status: "pending",
-  meal_type: "Normal",
+  meal_type: "H-BR",
   remarks: null,
   done_at: null,
   photo_requested_at: null,

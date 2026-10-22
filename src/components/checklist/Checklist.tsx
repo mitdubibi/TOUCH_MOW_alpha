@@ -6,6 +6,7 @@ import { groupByBlock, isDone, progress } from "@/lib/checklist";
 import { PhotoControls, PhotoRequest } from "./DeliveryPhoto";
 import { ProblemBadges, ReportProblem } from "./ReportProblem";
 import { fetchChecklist } from "@/lib/deliveries";
+import { mealLabel } from "@/lib/meals";
 import { enqueueTick, queuedTicks, removeTick, type QueuedTick } from "@/lib/offline/tickQueue";
 import { createClient } from "@/lib/supabase/client";
 import type { ChecklistItem, DeliveryStatus } from "@/types/db";
@@ -296,7 +297,7 @@ function ChecklistRow({
       <div className="min-w-0 flex-1">
         <p className={`text-xl font-semibold ${cancelled ? "text-slate-400 line-through" : ""}`}>{item.unit_no}</p>
         <p className="text-sm text-slate-700">
-          <span className="font-medium">{item.meal_type}</span>
+          <span className="font-medium">{mealLabel(item.meal_type)}</span>
           {item.status !== "pending" && <span> · {STATUS_LABEL[item.status]}</span>}
         </p>
         {item.remarks && <p className="mt-1 text-sm text-slate-600">{item.remarks}</p>}

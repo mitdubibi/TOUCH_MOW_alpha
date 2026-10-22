@@ -1,13 +1,13 @@
 Date,Session,Block,Unit,Postal Code,Meal Type,Remarks
-22/10/2026,Lunch,Blk 501,#04-112,640501,Normal,
-22/10/2026,Lunch,Blk 502,#08-207,640502,Soft,Knock loudly
-22/10/2026,Lunch,Blk 505,#03-150,640505,Diabetic,
-22/10/2026,Lunch,Blk 505,#10-154,640505,Normal,
-22/10/2026,Lunch,Blk 507,#06-171,640507,Vegetarian,
-22/10/2026,Lunch,Blk 509,#02-188,640509,Normal,Leave on chair outside
-22/10/2026,Lunch,Blk 510,#11-193,640510,Soft,
-22/10/2026,Lunch,Blk 513,#04-301,640513,Soft,
-22/10/2026,Lunch,Blk 514,#07-322,640514,Normal,
-22/10/2026,Lunch,Blk 518,#05-123,640518,Normal,
-22/10/2026,Lunch,Blk 522,#09-415,640522,Diabetic,No sugar drinks
-22/10/2026,Lunch,Blk 525,#12-460,640525,Normal,Ring bell twice
+22/10/2026,Lunch,Blk 501,#04-112,640501,H-BR,
+22/10/2026,Lunch,Blk 502,#08-207,640502,H-M,Knock loudly
+22/10/2026,Lunch,Blk 505,#03-150,640505,HH,
+22/10/2026,Lunch,Blk 505,#10-154,640505,H-BR,
+22/10/2026,Lunch,Blk 507,#06-171,640507,H,
+22/10/2026,Lunch,Blk 509,#02-188,640509,H-BR,Leave on chair outside
+22/10/2026,Lunch,Blk 510,#11-193,640510,H-M,
+22/10/2026,Lunch,Blk 513,#04-301,640513,H-M,
+22/10/2026,Lunch,Blk 514,#07-322,640514,H-BR,
+22/10/2026,Lunch,Blk 518,#05-123,640518,H-BR,
+22/10/2026,Lunch,Blk 522,#09-415,640522,HH,No sugar drinks
+22/10/2026,Lunch,Blk 525,#12-460,640525,H-BR,Ring bell twice
