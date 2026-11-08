@@ -66,7 +66,7 @@ export default function LiveMapDemo() {
               type="button"
               onClick={() => setSessionId(s.id)}
               className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                s.id === sessionId ? "bg-navy text-sun" : "bg-navy/5 text-navy"
+                s.id === sessionId ? "bg-brand text-white" : "bg-ink/5 text-ink"
               }`}
             >
               {sessionWhen(s).title}
@@ -83,7 +83,7 @@ export default function LiveMapDemo() {
             const v = volunteerById(vid);
             const p = sessionProgress(state, sessionId, vid);
             return (
-              <li key={vid} className="space-y-2 rounded-xl border border-navy/10 p-3">
+              <li key={vid} className="space-y-2 rounded-xl border border-ink/10 p-3">
                 <div className="flex items-center gap-3">
                   <span
                     className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold text-white"
@@ -92,13 +92,13 @@ export default function LiveMapDemo() {
                     {v.initials}
                   </span>
                   <div className="flex-1">
-                    <p className="font-semibold text-navy">{v.name}</p>
+                    <p className="font-semibold text-ink">{v.name}</p>
                     <p className="text-sm text-slate-600">
                       {volunteerPosition(state, sessionId, vid).label} · {p.done}/{p.total} done
                     </p>
                   </div>
                 </div>
-                <ProgressBar value={p.done} total={p.total} colour="bg-navy" />
+                <ProgressBar value={p.done} total={p.total} colour="bg-brand" />
               </li>
             );
           })}

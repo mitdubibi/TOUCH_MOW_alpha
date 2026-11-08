@@ -20,7 +20,7 @@ export default async function OrganiserHome() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Sessions</h1>
-        <Link href="/organiser/upload" className="rounded-lg bg-teal-700 px-4 py-2 font-semibold text-white">
+        <Link href="/organiser/upload" className="rounded-lg bg-brand px-4 py-2 font-semibold text-white">
           Upload list
         </Link>
       </div>

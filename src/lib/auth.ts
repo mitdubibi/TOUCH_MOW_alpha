@@ -2,9 +2,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/types/db";
 
-// Set when an elderly test login (old1@touch) is used: holds their recipient link token.
-export const RECIPIENT_COOKIE = "mow_recipient";
-
 // For pages that need a logged-in user. Sends everyone else to /login.
 export async function requireUser() {
   const supabase = await createClient();

@@ -18,9 +18,9 @@ const SIZE = { stop: 32, done: 28, centre: 34, volunteer: 38, block: 30 };
 function icon(pin: MapPin) {
   const size = SIZE[pin.variant];
   const style: Record<MapPin["variant"], string> = {
-    stop: "background:#12263F;color:#FFC20E;font-size:15px",
+    stop: "background:#C8102E;color:#fff;font-size:15px",
     done: "background:#94a3b8;color:#fff;font-size:14px",
-    centre: "background:#FFC20E;color:#12263F;font-size:11px;border-radius:8px",
+    centre: "background:#141414;color:#fff;font-size:11px;border-radius:8px",
     volunteer: `background:${pin.colour};color:#fff;font-size:13px;border-width:3px`,
     block: `background:${pin.colour ?? "#64748b"};color:#fff;font-size:12px`,
   };
@@ -49,7 +49,7 @@ export default function DemoMapInner({ pins, path, height = 380 }: { pins: MapPi
       {path && path.length > 1 && (
         <Polyline
           positions={path.map((p) => [p.lat, p.lng] as [number, number])}
-          pathOptions={{ color: "#12263F", weight: 4, opacity: 0.8, dashArray: "8 8" }}
+          pathOptions={{ color: "#C8102E", weight: 4, opacity: 0.8, dashArray: "8 8" }}
         />
       )}
       {pins.map((pin) => (

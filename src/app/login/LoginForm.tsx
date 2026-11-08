@@ -55,7 +55,7 @@ export function LoginForm() {
   if (step === "code") {
     return (
       <form onSubmit={onSubmitCode} className="mt-6 space-y-3">
-        <p className="rounded-lg bg-teal-50 p-4 text-teal-900">
+        <p className="rounded-lg bg-brand-light p-4 text-brand-dark">
           We sent a code to <strong>{email.trim()}</strong>. Type it below.
         </p>
         <label className="block">
@@ -78,7 +78,7 @@ export function LoginForm() {
         )}
         <button
           disabled={busy}
-          className="w-full rounded-lg bg-teal-700 py-3 text-lg font-semibold text-white disabled:opacity-60"
+          className="w-full rounded-lg bg-brand py-3 text-lg font-semibold text-white disabled:opacity-60"
         >
           {busy ? "Checking..." : "Log in"}
         </button>
@@ -90,7 +90,7 @@ export function LoginForm() {
               setCode("");
               setError(null);
             }}
-            className="text-teal-800 underline"
+            className="text-brand-dark underline"
           >
             Use a different email
           </button>
@@ -103,7 +103,7 @@ export function LoginForm() {
               await sendCode();
               setBusy(false);
             }}
-            className="text-teal-800 underline"
+            className="text-brand-dark underline"
           >
             Send a new code
           </button>
@@ -132,7 +132,7 @@ export function LoginForm() {
       )}
       <button
         disabled={busy}
-        className="w-full rounded-lg bg-teal-700 py-3 text-lg font-semibold text-white disabled:opacity-60"
+        className="w-full rounded-lg bg-brand py-3 text-lg font-semibold text-white disabled:opacity-60"
       >
         {busy ? "Please wait..." : "Continue"}
       </button>

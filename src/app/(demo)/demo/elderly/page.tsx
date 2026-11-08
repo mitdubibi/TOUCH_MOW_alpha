@@ -15,7 +15,7 @@ export default function ElderlyDemo() {
   }, [router, token]);
 
   return (
-    <main className="flex flex-1 items-center justify-center p-6 text-center text-2xl font-semibold text-navy">
+    <main className="flex flex-1 items-center justify-center p-6 text-center text-2xl font-semibold text-ink">
       {token ? "Opening..." : "No link for this household yet. Reset demo data on the organiser screen."}
     </main>
   );

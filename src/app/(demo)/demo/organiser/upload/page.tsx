@@ -37,19 +37,19 @@ export default function UploadDemo() {
           <button
             type="button"
             onClick={() => choose("delivery-list-lunch.csv", sampleCsv(date))}
-            className="rounded-xl border-2 border-navy py-2 text-navy"
+            className="rounded-xl border-2 border-ink py-2 text-ink"
           >
             Sample list
           </button>
           <button
             type="button"
             onClick={() => choose("list-with-mistakes.csv", sampleCsvWithMistakes(date))}
-            className="rounded-xl border-2 border-navy py-2 text-navy"
+            className="rounded-xl border-2 border-ink py-2 text-ink"
           >
             Sample with mistakes
           </button>
         </div>
-        <label className="block rounded-xl border-2 border-dashed border-navy/30 p-4 text-center text-navy">
+        <label className="block rounded-xl border-2 border-dashed border-ink/30 p-4 text-center text-ink">
           <span className="font-semibold">📄 {file.name}</span>
           <span className="block text-sm text-slate-600">Tap to choose your own CSV</span>
           <input
@@ -79,8 +79,8 @@ export default function UploadDemo() {
         )}
 
         {[...sessions.values()].map((s) => (
-          <div key={`${s.date}${s.slot}`} className="rounded-xl bg-navy p-3 text-white">
-            <p className="font-semibold text-sun">
+          <div key={`${s.date}${s.slot}`} className="rounded-xl bg-brand p-3 text-white">
+            <p className="font-semibold text-white">
               {formatDate(s.date)} · {SLOT_LABEL[s.slot]}
             </p>
             <p className="text-sm">
@@ -90,9 +90,9 @@ export default function UploadDemo() {
         ))}
 
         {result.rows.length > 0 && (
-          <div className="max-h-72 overflow-auto rounded-xl border border-navy/15">
+          <div className="max-h-72 overflow-auto rounded-xl border border-ink/15">
             <table className="w-full text-left text-sm">
-              <thead className="sticky top-0 bg-sun-light text-navy">
+              <thead className="sticky top-0 bg-brand-light text-ink">
                 <tr>
                   <th className="px-2 py-1.5">Blk</th>
                   <th className="px-2 py-1.5">Unit</th>
@@ -102,7 +102,7 @@ export default function UploadDemo() {
               </thead>
               <tbody>
                 {result.rows.map((r) => (
-                  <tr key={r.line} className="border-t border-navy/10">
+                  <tr key={r.line} className="border-t border-ink/10">
                     <td className="px-2 py-1.5 font-semibold">{r.block}</td>
                     <td className="px-2 py-1.5">{r.unit}</td>
                     <td className="px-2 py-1.5">{mealLabel(r.mealType)}</td>
@@ -126,7 +126,7 @@ export default function UploadDemo() {
             type="button"
             disabled={!ok}
             onClick={() => setUploaded(true)}
-            className="w-full rounded-xl bg-sun py-3 text-lg font-bold text-navy disabled:opacity-40"
+            className="w-full rounded-xl bg-ink py-3 text-lg font-bold text-white disabled:opacity-40"
           >
             {ok ? `Upload ${result.rows.length} meals` : "Fix the problems first"}
           </button>

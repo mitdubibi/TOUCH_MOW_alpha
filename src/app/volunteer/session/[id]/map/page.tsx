@@ -25,7 +25,7 @@ export default async function VolunteerRouteMapPage({ params }: { params: Promis
         <h1 className="text-2xl font-bold">
           Route · {SLOT_LABEL[session.slot]} {formatTime(session.start_time)}
         </h1>
-        <Link href={`/volunteer/session/${id}`} className="shrink-0 font-semibold text-teal-800 underline">
+        <Link href={`/volunteer/session/${id}`} className="shrink-0 font-semibold text-brand-dark underline">
           Checklist
         </Link>
       </div>

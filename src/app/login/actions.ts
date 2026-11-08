@@ -1,8 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { RECIPIENT_COOKIE } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
@@ -14,14 +12,13 @@ const ORGANISERS: Record<string, string> = {
 };
 // Elderly logins open the household's recipient page (/t/<token>), which needs no account.
 const RECIPIENTS: Record<string, { postal: string; unit: string }> = {
-  "old1@touch": { postal: "640501", unit: "#03-110" },
-  "old2@touch": { postal: "640518", unit: "#05-123" },
+  "ahma@touch": { postal: "640501", unit: "#03-110" },
+  "ahgong@touch": { postal: "640518", unit: "#05-123" },
 };
 
 export async function quickLogin(name: string): Promise<{ error: string }> {
   const key = name.trim().toLowerCase();
   const admin = createAdminClient();
-  const cookieStore = await cookies();
 
   const organiserEmail = ORGANISERS[key];
   if (organiserEmail) {
@@ -33,7 +30,6 @@ export async function quickLogin(name: string): Promise<{ error: string }> {
       token_hash: link.data.properties.hashed_token,
     });
     if (error) return { error: error.message };
-    cookieStore.delete(RECIPIENT_COOKIE);
     redirect("/me");
   }
 
@@ -49,13 +45,6 @@ export async function quickLogin(name: string): Promise<{ error: string }> {
     if (!token) return { error: "This home is not set up yet. Please contact the TOUCH coordinator." };
     // A shared test phone may still be logged in as a volunteer or organiser.
     await (await createClient()).auth.signOut();
-    // Remembered so the app on the home screen opens straight to their meal.
-    cookieStore.set(RECIPIENT_COOKIE, token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 365,
-    });
     redirect(`/t/${token}`);
   }
 

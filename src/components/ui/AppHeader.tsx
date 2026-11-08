@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeartLogo } from "./HeartLogo";
 
 type Props = {
   name: string;
@@ -7,9 +8,10 @@ type Props = {
 
 export function AppHeader({ name, links }: Props) {
   return (
-    <header className="border-b border-slate-200 bg-teal-700 text-white">
+    <header className="border-b border-slate-200 bg-brand text-white">
       <div className="mx-auto flex max-w-3xl items-center gap-4 px-4 py-3">
-        <Link href="/me" className="font-bold">
+        <Link href="/me" className="flex items-center gap-2 font-bold">
+          <HeartLogo className="h-5 w-5 text-white" />
           Meals on Wheels
         </Link>
         <nav className="flex flex-1 gap-3 text-sm">

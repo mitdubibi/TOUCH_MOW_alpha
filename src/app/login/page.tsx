@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { RECIPIENT_COOKIE } from "@/lib/auth";
+import { HeartLogo } from "@/components/ui/HeartLogo";
 import { createClient } from "@/lib/supabase/server";
 import { LoginForm } from "./LoginForm";
 
@@ -20,12 +19,13 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const { data: profile } = user
     ? await supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle<{ display_name: string | null }>()
     : { data: null };
-  const recipient = (await cookies()).get(RECIPIENT_COOKIE)?.value;
-  const recipientHref = recipient && /^[0-9a-f]{64}$/.test(recipient) ? `/t/${recipient}` : null;
 
   return (
     <main className="mx-auto max-w-sm px-4 py-12">
-      <h1 className="text-3xl font-bold">Meals on Wheels</h1>
+      <HeartLogo className="h-12 w-12 text-brand" />
+      <h1 className="mt-3 text-3xl font-bold">
+        <span className="text-brand">TOUCH</span> Meals on Wheels
+      </h1>
       <p className="mt-2 text-slate-700">Log in with your email. We will send you a code, no password needed.</p>
       {error && ERRORS[error] && (
         <p role="alert" className="mt-4 rounded-lg bg-red-50 p-3 text-red-800">
@@ -33,28 +33,20 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         </p>
       )}
       {user && profile && (
-        <div className="mt-6 space-y-2 rounded-lg border border-teal-700 p-4">
+        <div className="mt-6 space-y-2 rounded-lg border border-brand p-4">
           <p>
             You are logged in as <strong>{profile.display_name || user.email}</strong>.
           </p>
           <Link
             href="/me"
-            className="block w-full rounded-lg bg-teal-700 py-3 text-center text-lg font-semibold text-white"
+            className="block w-full rounded-lg bg-brand py-3 text-center text-lg font-semibold text-white"
           >
             Continue as {profile.display_name || user.email}
           </Link>
           <form action="/auth/signout" method="post">
-            <button className="text-sm text-teal-800 underline">Log out</button>
+            <button className="text-sm text-brand-dark underline">Log out</button>
           </form>
         </div>
-      )}
-      {!user && recipientHref && (
-        <Link
-          href={recipientHref}
-          className="mt-6 block w-full rounded-lg bg-teal-700 py-3 text-center text-lg font-semibold text-white"
-        >
-          Open my meal page
-        </Link>
       )}
       <LoginForm />
     </main>

@@ -71,13 +71,13 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
         <Link href="/demo" className="text-sm text-slate-500 underline">
           ‹ Roles
         </Link>
-        <div className="flex overflow-hidden rounded-full border-2 border-navy text-lg font-bold">
+        <div className="flex overflow-hidden rounded-full border-2 border-ink text-lg font-bold">
           {(["en", "zh"] as const).map((l) => (
             <button
               key={l}
               type="button"
               onClick={() => setLang(l)}
-              className={`px-4 py-1 ${lang === l ? "bg-navy text-sun" : "text-navy"}`}
+              className={`px-4 py-1 ${lang === l ? "bg-brand text-white" : "text-ink"}`}
             >
               {l === "en" ? "EN" : "中文"}
             </button>
@@ -93,14 +93,14 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
         <button
           type="button"
           onClick={() => setOverlay("call")}
-          className="flex min-h-20 w-full items-center justify-center gap-3 rounded-3xl bg-navy text-3xl font-bold text-sun"
+          className="flex min-h-20 w-full items-center justify-center gap-3 rounded-3xl bg-brand text-3xl font-bold text-white"
         >
           <span aria-hidden>📞</span> {t.call}
         </button>
         <button
           type="button"
           onClick={() => setOverlay("message")}
-          className="flex min-h-20 w-full items-center justify-center gap-3 rounded-3xl border-4 border-navy text-3xl font-bold text-navy"
+          className="flex min-h-20 w-full items-center justify-center gap-3 rounded-3xl border-4 border-ink text-3xl font-bold text-ink"
         >
           <span aria-hidden>💬</span> {t.message}
         </button>
@@ -126,7 +126,7 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
       </label>
 
       {overlay && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-navy p-6 text-center text-white">
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-brand p-6 text-center text-white">
           <div className="w-full max-w-[380px] space-y-5">
             {overlay === "call" && (
               <>
@@ -149,7 +149,7 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
                       dispatch({ type: "send", message: { thread: "recipients", from: "recipient", unitId: unit.id, body, time: nowLabel() } });
                       setOverlay("sent");
                     }}
-                    className="w-full rounded-3xl bg-sun py-5 text-2xl font-bold text-navy"
+                    className="w-full rounded-3xl bg-ink py-5 text-2xl font-bold text-white"
                   >
                     {body}
                   </button>
@@ -163,7 +163,7 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
               <>
                 <p className="text-7xl">✅</p>
                 <p className="text-4xl font-bold">{t.sent}</p>
-                <button type="button" onClick={() => setOverlay(null)} className="w-full rounded-3xl bg-sun py-5 text-3xl font-bold text-navy">
+                <button type="button" onClick={() => setOverlay(null)} className="w-full rounded-3xl bg-ink py-5 text-3xl font-bold text-white">
                   {t.close}
                 </button>
               </>
@@ -178,7 +178,7 @@ export function ElderlyScreen({ unitId }: { unitId: string }) {
 function StatusCard({ view, t }: { view: ElderlyView; t: (typeof T)["en"] | (typeof T)["zh"] }) {
   if (view.kind === "delivered") {
     return (
-      <div className="flex h-full flex-col items-center justify-center rounded-3xl bg-sun p-6 text-center text-navy">
+      <div className="flex h-full flex-col items-center justify-center rounded-3xl bg-ink p-6 text-center text-white">
         <p className="text-8xl" aria-hidden>
           ✓
         </p>
@@ -196,12 +196,12 @@ function StatusCard({ view, t }: { view: ElderlyView; t: (typeof T)["en"] | (typ
           ? [t.preparing, t.startsAt(formatTime(view.startTime))]
           : [t.none, ""];
   return (
-    <div className="flex h-full flex-col justify-center rounded-3xl bg-navy p-6 text-white" aria-live="polite">
+    <div className="flex h-full flex-col justify-center rounded-3xl bg-brand p-6 text-white" aria-live="polite">
       <p className="text-5xl" aria-hidden>
         🍱
       </p>
       <p className="mt-4 text-4xl font-bold leading-tight">{big}</p>
-      {small && <p className="mt-4 text-3xl font-semibold leading-snug text-sun">{small}</p>}
+      {small && <p className="mt-4 text-3xl font-semibold leading-snug text-white">{small}</p>}
     </div>
   );
 }

@@ -48,7 +48,7 @@ export default function VolunteerRouteMap() {
   return (
     <>
       <DemoHeader title={when.title} subtitle={`${when.day} · your route`} back="/demo/volunteer" />
-      <div className="border-b border-navy/10 px-4 py-3">
+      <div className="border-b border-ink/10 px-4 py-3">
         <Tabs
           items={[
             { href: `/demo/volunteer/session/${id}`, label: "Checklist" },
@@ -63,24 +63,24 @@ export default function VolunteerRouteMap() {
           <>
             <DemoMap pins={pins} path={path} />
             <ol className="space-y-2">
-              <li className="flex items-center gap-3 rounded-xl bg-sun-light px-3 py-2">
-                <span className="rounded-md bg-sun px-2 py-1 text-xs font-bold text-navy">Start</span>
-                <span className="font-semibold text-navy">{CENTRE.name}</span>
+              <li className="flex items-center gap-3 rounded-xl bg-brand-light px-3 py-2">
+                <span className="rounded-md bg-ink px-2 py-1 text-xs font-bold text-white">Start</span>
+                <span className="font-semibold text-ink">{CENTRE.name}</span>
               </li>
               {route.map((s, i) => {
                 const min = legs[i].minutes;
                 const done = stopDone(s.units);
                 return (
-                  <li key={s.block.postal} className="flex items-center gap-3 rounded-xl border border-navy/10 px-3 py-2">
+                  <li key={s.block.postal} className="flex items-center gap-3 rounded-xl border border-ink/10 px-3 py-2">
                     <span
                       className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-bold ${
-                        done ? "bg-slate-400 text-white" : "bg-navy text-sun"
+                        done ? "bg-slate-400 text-white" : "bg-brand text-white"
                       }`}
                     >
                       {done ? "✓" : s.stopNo}
                     </span>
                     <div className="flex-1">
-                      <p className="font-semibold text-navy">Blk {s.block.blockNo}</p>
+                      <p className="font-semibold text-ink">Blk {s.block.blockNo}</p>
                       <p className="text-sm text-slate-600">
                         {s.units.length} meals · levels {s.units.map((u) => u.floor).join(", ")}
                       </p>

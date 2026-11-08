@@ -37,8 +37,8 @@ export default function TestersPage() {
 
   return (
     <main className="flex-1 bg-white">
-      <section className="bg-navy px-5 pb-6 pt-8 text-white">
-        <p className="font-semibold tracking-wide text-sun">TOUCH MOW</p>
+      <section className="bg-brand px-5 pb-6 pt-8 text-white">
+        <p className="font-semibold tracking-wide text-white">TOUCH MOW</p>
         <h1 className="mt-1 text-3xl font-bold">Testers start here</h1>
         <p className="mt-2 text-white/85">
           Thank you for testing! Pick a role below. Use two phones (or a phone and a laptop) so you can see changes
@@ -47,8 +47,8 @@ export default function TestersPage() {
       </section>
 
       <section className="space-y-3 p-5">
-        <h2 className="text-xl font-bold text-navy">1. Pick a role</h2>
-        <Link href="/demo/organiser" className="block rounded-2xl bg-navy px-5 py-4 text-2xl font-bold text-sun">
+        <h2 className="text-xl font-bold text-ink">1. Pick a role</h2>
+        <Link href="/demo/organiser" className="block rounded-2xl bg-brand px-5 py-4 text-2xl font-bold text-white">
           📋 Organiser
         </Link>
         {["v1", "v2"].map((vid, i) => (
@@ -56,7 +56,7 @@ export default function TestersPage() {
             key={vid}
             type="button"
             onClick={() => asVolunteer(vid)}
-            className="block w-full rounded-2xl border-4 border-navy px-5 py-4 text-left text-2xl font-bold text-navy"
+            className="block w-full rounded-2xl border-4 border-ink px-5 py-4 text-left text-2xl font-bold text-ink"
           >
             🚶 Volunteer {i + 1}
             <span className="block text-base font-medium text-slate-600">{volunteerById(vid).name}</span>
@@ -68,7 +68,7 @@ export default function TestersPage() {
             <Link
               key={e.name}
               href={`/demo/elderly/${token}`}
-              className="block rounded-2xl bg-sun px-5 py-4 text-2xl font-bold text-navy"
+              className="block rounded-2xl bg-ink px-5 py-4 text-2xl font-bold text-white"
             >
               🏠 {e.name}
               <span className="block text-base font-medium">
@@ -84,25 +84,25 @@ export default function TestersPage() {
       </section>
 
       <section className="space-y-3 px-5 pb-5">
-        <h2 className="text-xl font-bold text-navy">2. Try these</h2>
+        <h2 className="text-xl font-bold text-ink">2. Try these</h2>
         <ol className="space-y-3">
           {TASKS.map((task, i) => (
             <li key={i} className="flex gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-navy font-bold text-sun">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand font-bold text-white">
                 {i + 1}
               </span>
-              <span className="text-navy">{task}</span>
+              <span className="text-ink">{task}</span>
             </li>
           ))}
         </ol>
-        <p className="rounded-xl bg-navy/5 p-3 text-sm text-slate-700">
+        <p className="rounded-xl bg-ink/5 p-3 text-sm text-slate-700">
           Everyone shares the same data. If things get messy, the organiser can press Reset demo data at the bottom of
           the Today screen (it resets it for everyone).
         </p>
       </section>
 
       <section className="space-y-2 px-5 pb-5">
-        <h2 className="text-xl font-bold text-navy">Put it on your home screen</h2>
+        <h2 className="text-xl font-bold text-ink">Put it on your home screen</h2>
         <p className="text-slate-700">
           <strong>iPhone (Safari):</strong> tap Share, then Add to Home Screen.
           <br />
@@ -111,8 +111,8 @@ export default function TestersPage() {
         <p className="text-slate-700">It then opens like an app, without the browser bars.</p>
       </section>
 
-      <section className="space-y-3 border-t-4 border-sun px-5 py-6">
-        <h2 className="text-xl font-bold text-navy">3. Report a bug</h2>
+      <section className="space-y-3 border-t-4 border-brand px-5 py-6">
+        <h2 className="text-xl font-bold text-ink">3. Report a bug</h2>
         <BugReportForm />
       </section>
     </main>

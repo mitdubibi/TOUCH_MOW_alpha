@@ -22,7 +22,7 @@ export function PhotoRequest({ supabase, sessionId, item, onPatch }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   if (!item.photo_requested_at || item.status === "cancelled") return null;
-  if (item.photo_path) return <p className="mt-2 text-sm font-semibold text-teal-800">📷 Photo sent</p>;
+  if (item.photo_path) return <p className="mt-2 text-sm font-semibold text-brand-dark">📷 Photo sent</p>;
 
   async function take(file: File) {
     setBusy(true);
@@ -111,7 +111,7 @@ export function PhotoControls({ supabase, item, onPatch }: Omit<Props, "sessionI
     <div className="mt-2 space-y-2 text-sm">
       {item.photo_path ? (
         <div className="flex flex-wrap items-center gap-3">
-          <button type="button" onClick={view} className="rounded-lg bg-navy px-3 py-1 font-semibold text-white">
+          <button type="button" onClick={view} className="rounded-lg bg-brand px-3 py-1 font-semibold text-white">
             {url ? "Hide photo" : "📷 View photo"}
           </button>
           <button type="button" onClick={() => setAsking(true)} className="text-slate-600 underline">
@@ -131,7 +131,7 @@ export function PhotoControls({ supabase, item, onPatch }: Omit<Props, "sessionI
         </div>
       ) : (
         !asking && (
-          <button type="button" onClick={() => setAsking(true)} className="text-teal-800 underline">
+          <button type="button" onClick={() => setAsking(true)} className="text-brand-dark underline">
             Request photo
           </button>
         )
@@ -146,7 +146,7 @@ export function PhotoControls({ supabase, item, onPatch }: Omit<Props, "sessionI
             placeholder="What to show (optional)"
             className="min-w-0 flex-1 rounded-lg border border-slate-400 px-2 py-1"
           />
-          <button type="button" onClick={request} className="rounded-lg bg-teal-700 px-3 py-1 font-semibold text-white">
+          <button type="button" onClick={request} className="rounded-lg bg-brand px-3 py-1 font-semibold text-white">
             Send
           </button>
           <button type="button" onClick={() => setAsking(false)} className="text-slate-600 underline">

@@ -156,12 +156,12 @@ export function ShareLocation({ sessionId, initialSharing, ended: initialEnded }
   return (
     <div className="space-y-2">
       {sharing ? (
-        <div className="space-y-3 rounded-xl border-2 border-teal-700 bg-teal-50 px-4 py-3">
-          <p className="flex items-center gap-2 text-lg font-bold text-teal-900">
-            <span className="h-3 w-3 animate-pulse rounded-full bg-teal-600" aria-hidden />
+        <div className="space-y-3 rounded-xl border-2 border-brand bg-brand-light px-4 py-3">
+          <p className="flex items-center gap-2 text-lg font-bold text-brand-dark">
+            <span className="h-3 w-3 animate-pulse rounded-full bg-brand" aria-hidden />
             Sharing your location
           </p>
-          <p className="text-sm text-teal-900">
+          <p className="text-sm text-brand-dark">
             {lastSent ? `Last sent ${timeLabel(lastSent)}.` : "Finding your location..."} Recipients see how many stops
             away you are. Sharing stops when the session ends.
           </p>
@@ -169,7 +169,7 @@ export function ShareLocation({ sessionId, initialSharing, ended: initialEnded }
             type="button"
             onClick={stop}
             disabled={busy}
-            className="w-full rounded-lg border-2 border-teal-800 bg-white px-4 py-2 font-semibold text-teal-900 disabled:opacity-50"
+            className="w-full rounded-lg border-2 border-brand bg-white px-4 py-2 font-semibold text-brand-dark disabled:opacity-50"
           >
             Stop sharing
           </button>
@@ -180,7 +180,7 @@ export function ShareLocation({ sessionId, initialSharing, ended: initialEnded }
             type="button"
             onClick={start}
             disabled={busy}
-            className="w-full rounded-xl bg-teal-700 px-4 py-4 text-xl font-bold text-white disabled:opacity-50"
+            className="w-full rounded-xl bg-brand px-4 py-4 text-xl font-bold text-white disabled:opacity-50"
           >
             {busy ? "Starting..." : "Start delivery"}
           </button>

@@ -7,7 +7,7 @@ import type { MapPin } from "./DemoMapInner";
 // Leaflet needs the browser, so the map only loads on the client.
 export const DemoMap = dynamic(() => import("./DemoMapInner"), {
   ssr: false,
-  loading: () => <div className="h-[380px] animate-pulse rounded-xl bg-navy/10" />,
+  loading: () => <div className="h-[380px] animate-pulse rounded-xl bg-ink/10" />,
 });
 
 export type { MapPin } from "./DemoMapInner";

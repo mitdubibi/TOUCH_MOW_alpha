@@ -39,7 +39,7 @@ type LinkRow = {
 
 const STATUS_BADGE = {
   planned: "bg-slate-100 text-slate-800",
-  live: "bg-teal-100 text-teal-900",
+  live: "bg-brand-light text-brand-dark",
   done: "bg-slate-200 text-slate-600",
 };
 
@@ -138,7 +138,7 @@ export default async function OrganiserSessionPage({ params }: { params: Promise
               <span>
                 {t.profiles?.display_name}
                 {t.sharing_location && (
-                  <span className="ml-2 rounded bg-teal-100 px-2 py-0.5 text-xs font-semibold text-teal-900">
+                  <span className="ml-2 rounded bg-brand-light px-2 py-0.5 text-xs font-semibold text-brand-dark">
                     Sharing location
                   </span>
                 )}
@@ -162,7 +162,7 @@ export default async function OrganiserSessionPage({ params }: { params: Promise
                 </option>
               ))}
             </select>
-            <button className="rounded-lg bg-teal-700 px-4 py-2 font-semibold text-white">Add</button>
+            <button className="rounded-lg bg-brand px-4 py-2 font-semibold text-white">Add</button>
           </form>
         )}
         <ChatLink href={`/organiser/sessions/${id}/chat`} latest={latestMessage} />

@@ -50,7 +50,7 @@ export default async function VolunteerSessionPage({ params }: { params: Promise
       {plan.ok && plan.stops.length > 0 && (
         <Link
           href={`/volunteer/session/${id}/map`}
-          className="block rounded-xl bg-navy px-4 py-3 text-center text-lg font-semibold text-white"
+          className="block rounded-xl bg-brand px-4 py-3 text-center text-lg font-semibold text-white"
         >
           See route on map
         </Link>

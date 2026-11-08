@@ -26,11 +26,11 @@ export function SendRemindersForm({ allowPretend }: { allowPretend: boolean }) {
         )}
         <button
           disabled={pending}
-          className="w-full rounded-lg bg-teal-700 px-4 py-2 font-semibold text-white disabled:opacity-50"
+          className="w-full rounded-lg bg-brand px-4 py-2 font-semibold text-white disabled:opacity-50"
         >
           {pending ? "Sending..." : "Send due reminders now"}
         </button>
-        {state.message && <p className="text-sm font-medium text-teal-900">{state.message}</p>}
+        {state.message && <p className="text-sm font-medium text-brand-dark">{state.message}</p>}
         {state.error && (
           <p role="alert" className="text-sm font-medium text-red-700">
             {state.error}

@@ -37,11 +37,11 @@ function pin(label: string, size: number, style: string) {
   });
 }
 
-const centreIcon = pin("Start", 38, "background:#FFC20E;color:#12263F;font-size:12px;border-radius:8px");
-const stopIcon = (n: number) => pin(String(n), 34, "background:#12263F;color:#FFC20E;font-size:16px");
+const centreIcon = pin("Start", 38, "background:#141414;color:#fff;font-size:12px;border-radius:8px");
+const stopIcon = (n: number) => pin(String(n), 34, "background:#C8102E;color:#fff;font-size:16px");
 const doneIcon = pin("✓", 30, "background:#94a3b8;color:#fff;font-size:15px");
 const volunteerIcon = (name: string) =>
-  pin(/^[a-z0-9]/i.test(name.trim()) ? name.trim().charAt(0).toUpperCase() : "V", 38, "background:#0f766e;color:#fff;font-size:16px;border-width:3px");
+  pin(/^[a-z0-9]/i.test(name.trim()) ? name.trim().charAt(0).toUpperCase() : "V", 38, "background:#141414;color:#fff;font-size:16px;border-width:3px");
 
 export default function RouteMapInner({ centre, stops, path, volunteers = [], height = 380 }: RouteMapProps) {
   const bounds = L.latLngBounds([centre, ...stops, ...path].map((p) => [p.lat, p.lng] as [number, number]));
@@ -60,7 +60,7 @@ export default function RouteMapInner({ centre, stops, path, volunteers = [], he
       {path.length > 1 && (
         <Polyline
           positions={path.map((p) => [p.lat, p.lng] as [number, number])}
-          pathOptions={{ color: "#12263F", weight: 5, opacity: 0.75 }}
+          pathOptions={{ color: "#C8102E", weight: 5, opacity: 0.75 }}
         />
       )}
       <Marker position={[centre.lat, centre.lng]} icon={centreIcon}>

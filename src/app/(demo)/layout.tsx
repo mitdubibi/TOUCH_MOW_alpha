@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
   return (
     <DemoProvider>
-      <div className="min-h-dvh bg-navy sm:py-6">
+      <div className="min-h-dvh bg-ink sm:py-6">
         <div className="mx-auto flex min-h-dvh w-full max-w-[420px] flex-col bg-white sm:min-h-[820px] sm:overflow-clip sm:rounded-[2rem] sm:shadow-2xl">
           {children}
         </div>

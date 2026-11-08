@@ -38,7 +38,7 @@ export function ReportProblem({ supabase, item, onPatch }: Props) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="mt-1 block text-sm font-medium text-navy underline underline-offset-2"
+        className="mt-1 block text-sm font-medium text-ink underline underline-offset-2"
       >
         Report a problem
       </button>
@@ -80,7 +80,7 @@ function ReportSheet({ supabase, item, onPatch, onClose }: Props & { onClose: ()
   }
 
   return (
-    <div className="fixed inset-0 z-[2000] flex items-end bg-navy/60" onClick={onClose}>
+    <div className="fixed inset-0 z-[2000] flex items-end bg-ink/60" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
@@ -89,7 +89,7 @@ function ReportSheet({ supabase, item, onPatch, onClose }: Props & { onClose: ()
         onClick={(e) => e.stopPropagation()}
       >
         <div>
-          <h2 className="text-xl font-bold text-navy">Report a problem</h2>
+          <h2 className="text-xl font-bold text-ink">Report a problem</h2>
           <p className="text-slate-600">
             Blk {item.block_no} {item.unit_no}
           </p>
@@ -102,7 +102,7 @@ function ReportSheet({ supabase, item, onPatch, onClose }: Props & { onClose: ()
               aria-pressed={kind === k}
               onClick={() => setKind(k)}
               className={`w-full rounded-xl border-2 px-4 py-3 text-left text-lg font-semibold ${
-                kind === k ? "border-navy bg-sun text-navy" : "border-navy/15 text-navy"
+                kind === k ? "border-ink bg-ink text-white" : "border-ink/15 text-white"
               }`}
             >
               {PROBLEM_LABEL[k]}
@@ -129,14 +129,14 @@ function ReportSheet({ supabase, item, onPatch, onClose }: Props & { onClose: ()
           </p>
         )}
         <div className="grid grid-cols-2 gap-3">
-          <button type="button" onClick={onClose} className="rounded-xl border-2 border-navy/20 py-3 font-semibold text-navy">
+          <button type="button" onClick={onClose} className="rounded-xl border-2 border-ink/20 py-3 font-semibold text-ink">
             Cancel
           </button>
           <button
             type="button"
             disabled={!kind || sending}
             onClick={send}
-            className="rounded-xl bg-navy py-3 font-semibold text-sun disabled:opacity-40"
+            className="rounded-xl bg-brand py-3 font-semibold text-white disabled:opacity-40"
           >
             {sending ? "Sending..." : "Send to TOUCH"}
           </button>

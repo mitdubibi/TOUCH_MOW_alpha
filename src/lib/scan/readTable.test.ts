@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { buildRows, findColumns, findDate, findSlot, readTable, rowsFromLines, type OcrWord } from "./readTable";
+import {
+  buildRows,
+  findColumns,
+  findDate,
+  findSlot,
+  pickByShape,
+  readTable,
+  rowsFromLines,
+  type OcrWord,
+} from "./readTable";
 
 // A word as OCR returns it: text plus its box. Text is 30 px tall.
 const w = (text: string, x0: number, y0: number, x1 = x0 + text.length * 15): OcrWord => ({ text, x0, y0, x1, y1: y0 + 30 });
@@ -37,24 +46,33 @@ const body = [
 ];
 
 describe("findColumns", () => {
-  it("finds each column and sets aside one whose heading OCR missed", () => {
+  it("finds the header line and each named column", () => {
     const found = findColumns({ words: [...header, ...body], lines: [] }, 1500)!;
     expect(found.headerBottom).toBeGreaterThan(145);
     expect(found.headerBottom).toBeLessThan(200);
     const at = (x: number) => found.columns.find((c) => x >= c.left && x < c.right)?.field;
-    expect([at(100), at(500), at(710), at(860), at(1010), at(1195), at(1340)]).toEqual([
+    expect([at(100), at(500), at(710), at(860), at(1010), at(1340)]).toEqual([
       "remarks",
       "other",
       "block",
       "unit",
       "postal",
-      "other",
       "meal",
     ]);
   });
 
   it("gives up without a Block and Unit heading", () => {
     expect(findColumns({ words: body, lines: [] }, 1500)).toBeNull();
+  });
+});
+
+describe("pickByShape", () => {
+  it("picks units, postal codes and the block number under its heading, not S/N or street numbers", () => {
+    const page = { words: [...header, ...body, w("51", 480, 232), w("|518", 700, 460), w("#09-131", 850, 460)], lines: [] };
+    const picked = pickByShape(page, findColumns(page, 1500)!);
+    expect(picked.block!.map((x) => x.text)).toEqual(["501", "501", "518A", "518"]);
+    expect(picked.unit!.map((x) => x.text)).toEqual(["#12-120", "#03-110", "#05-123", "#09-131"]);
+    expect(picked.postal!.map((x) => x.text)).toEqual(["640501", "640501", "640518"]);
   });
 });
 
@@ -110,7 +128,7 @@ describe("rowsFromLines", () => {
 });
 
 describe("readTable", () => {
-  it("reads the page, then each wanted column once", async () => {
+  it("reads the page, then the instructions and meal strips, and drops the L/D letter from meals", async () => {
     const calls: string[] = [];
     const result = await readTable(
       async ({ rect, mode, whitelist }) => {
@@ -122,9 +140,13 @@ describe("readTable", () => {
       },
       { width: 1500, height: 500 },
     );
-    expect(calls).toEqual(["sparse", "block", "block:012", "block:#01", "block:012", "block:ABC"]);
+    expect(calls).toEqual(["sparse", "block", "block:ABC"]);
     expect(result.date).toBe("2026-10-30");
     expect(result.slot).toBe("dinner");
-    expect(result.rows.map((r) => r.unit)).toEqual(["#12-120", "#03-110", "#05-123"]);
+    expect(result.rows).toEqual([
+      { block: "501", unit: "#12-120", postalCode: "640501", mealType: "H-BR", remarks: "" },
+      { block: "501", unit: "#03-110", postalCode: "640501", mealType: "H", remarks: "Knock once then go." },
+      { block: "518A", unit: "#05-123", postalCode: "640518", mealType: "HH", remarks: "" },
+    ]);
   });
 });

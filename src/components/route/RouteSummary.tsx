@@ -20,7 +20,7 @@ export function RouteSummary({ plan }: { plan: RoutePlan }) {
 
   const saved = minutes(plan.naiveSeconds) - minutes(plan.totalSeconds);
   return (
-    <div className="space-y-1 rounded-xl bg-sun-light px-4 py-3 text-navy">
+    <div className="space-y-1 rounded-xl bg-brand-light px-4 py-3 text-ink">
       <p className="text-lg font-bold">About {minutes(plan.totalSeconds)} min walking</p>
       <p className="text-sm">
         Block number order: {minutes(plan.naiveSeconds)} min.{" "}
@@ -86,9 +86,9 @@ export function RouteDetails({
         <RouteMap centre={plan.centre} stops={stops} path={path} />
       )}
       <ol className="space-y-2">
-        <li className="flex items-center gap-3 rounded-xl bg-sun-light px-3 py-2">
-          <span className="rounded-md bg-sun px-2 py-1 text-xs font-bold text-navy">Start</span>
-          <span className="font-semibold text-navy">{plan.centre.name}</span>
+        <li className="flex items-center gap-3 rounded-xl bg-brand-light px-3 py-2">
+          <span className="rounded-md bg-ink px-2 py-1 text-xs font-bold text-white">Start</span>
+          <span className="font-semibold text-ink">{plan.centre.name}</span>
         </li>
         {plan.stops.map((s, i) => {
           const done = stops[i].done;
@@ -96,7 +96,7 @@ export function RouteDetails({
             <li key={s.postalCode} className="flex items-center gap-3 rounded-xl border border-slate-200 px-3 py-2">
               <span
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-bold ${
-                  done ? "bg-slate-400 text-white" : "bg-navy text-sun"
+                  done ? "bg-slate-400 text-white" : "bg-brand text-white"
                 }`}
               >
                 {done ? "✓" : s.stopNo}

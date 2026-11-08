@@ -46,7 +46,7 @@ export function BugReportForm() {
 
   if (sent) {
     return (
-      <div className="space-y-3 rounded-2xl bg-sun-light p-4 text-navy" role="status">
+      <div className="space-y-3 rounded-2xl bg-brand-light p-4 text-ink" role="status">
         <p className="text-lg font-bold">Thank you! Your report was sent.</p>
         <button type="button" onClick={() => setSent(false)} className="font-semibold underline">
           Report another bug
@@ -58,11 +58,11 @@ export function BugReportForm() {
   return (
     <form onSubmit={send} className="space-y-3">
       <label className="block">
-        <span className="font-semibold text-navy">I was testing as</span>
+        <span className="font-semibold text-ink">I was testing as</span>
         <select
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          className="mt-1 block w-full rounded-xl border-2 border-navy/20 bg-white px-3 py-2"
+          className="mt-1 block w-full rounded-xl border-2 border-ink/20 bg-white px-3 py-2"
         >
           {ROLES.map((r) => (
             <option key={r.value} value={r.value}>
@@ -72,7 +72,7 @@ export function BugReportForm() {
         </select>
       </label>
       <label className="block">
-        <span className="font-semibold text-navy">What did you do?</span>
+        <span className="font-semibold text-ink">What did you do?</span>
         <textarea
           required
           value={whatDid}
@@ -80,11 +80,11 @@ export function BugReportForm() {
           maxLength={1000}
           rows={3}
           placeholder="e.g. Ticked Blk 513 #04-301 on Volunteer 1"
-          className="mt-1 block w-full rounded-xl border-2 border-navy/20 p-3"
+          className="mt-1 block w-full rounded-xl border-2 border-ink/20 p-3"
         />
       </label>
       <label className="block">
-        <span className="font-semibold text-navy">What happened?</span>
+        <span className="font-semibold text-ink">What happened?</span>
         <textarea
           required
           value={whatHappened}
@@ -92,17 +92,17 @@ export function BugReportForm() {
           maxLength={1000}
           rows={3}
           placeholder="e.g. The organiser count did not change"
-          className="mt-1 block w-full rounded-xl border-2 border-navy/20 p-3"
+          className="mt-1 block w-full rounded-xl border-2 border-ink/20 p-3"
         />
       </label>
       <label className="block">
-        <span className="font-semibold text-navy">Phone model</span>
+        <span className="font-semibold text-ink">Phone model</span>
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           maxLength={100}
           placeholder="e.g. iPhone 13, Samsung A54"
-          className="mt-1 block w-full rounded-xl border-2 border-navy/20 px-3 py-2"
+          className="mt-1 block w-full rounded-xl border-2 border-ink/20 px-3 py-2"
         />
       </label>
       {error && (
@@ -112,7 +112,7 @@ export function BugReportForm() {
       )}
       <button
         disabled={sending || !whatDid.trim() || !whatHappened.trim()}
-        className="w-full rounded-xl bg-navy py-3 text-lg font-bold text-sun disabled:opacity-40"
+        className="w-full rounded-xl bg-brand py-3 text-lg font-bold text-white disabled:opacity-40"
       >
         {sending ? "Sending..." : "Send bug report"}
       </button>

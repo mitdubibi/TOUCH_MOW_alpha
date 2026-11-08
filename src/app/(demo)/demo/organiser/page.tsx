@@ -33,13 +33,13 @@ export default function OrganiserDashboard() {
           const when = sessionWhen(s);
           const p = sessionProgress(state, s.id);
           return (
-            <section key={s.id} className="space-y-3 rounded-2xl border-2 border-navy/10 p-4 shadow-sm">
+            <section key={s.id} className="space-y-3 rounded-2xl border-2 border-ink/10 p-4 shadow-sm">
               <div className="flex items-baseline justify-between">
-                <h2 className="text-xl font-bold text-navy">{when.title}</h2>
+                <h2 className="text-xl font-bold text-ink">{when.title}</h2>
                 <span className="text-sm text-slate-600">{s.team.length} volunteers</span>
               </div>
               <div>
-                <p className="mb-1 text-3xl font-bold text-navy">
+                <p className="mb-1 text-3xl font-bold text-ink">
                   {p.delivered}/{p.total} <span className="text-base font-medium text-slate-600">delivered</span>
                 </p>
                 <ProgressBar value={p.delivered} total={p.total} />
@@ -53,7 +53,7 @@ export default function OrganiserDashboard() {
                   const vp = sessionProgress(state, s.id, vid);
                   return (
                     <li key={vid} className="grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1">
-                      <span className="flex items-center gap-2 font-medium text-navy">
+                      <span className="flex items-center gap-2 font-medium text-ink">
                         <span className="h-3 w-3 rounded-full" style={{ background: v.colour }} />
                         {v.name}
                         <span className="text-xs font-normal text-slate-500">{volunteerPosition(state, s.id, vid).label}</span>
@@ -62,17 +62,17 @@ export default function OrganiserDashboard() {
                         {vp.done}/{vp.total}
                       </span>
                       <div className="col-span-2">
-                        <ProgressBar value={vp.done} total={vp.total} colour="bg-navy" />
+                        <ProgressBar value={vp.done} total={vp.total} colour="bg-brand" />
                       </div>
                     </li>
                   );
                 })}
               </ul>
               <div className="grid grid-cols-2 gap-2 text-center text-sm font-semibold">
-                <Link href="/demo/organiser/assign" className="rounded-xl border-2 border-navy py-2 text-navy">
+                <Link href="/demo/organiser/assign" className="rounded-xl border-2 border-ink py-2 text-ink">
                   Assign blocks
                 </Link>
-                <Link href="/demo/organiser/map" className="rounded-xl bg-navy py-2 text-sun">
+                <Link href="/demo/organiser/map" className="rounded-xl bg-brand py-2 text-white">
                   Live map
                 </Link>
               </div>
@@ -81,7 +81,7 @@ export default function OrganiserDashboard() {
         })}
 
         <section className="space-y-2">
-          <h2 className="text-lg font-bold text-navy">Problem reports</h2>
+          <h2 className="text-lg font-bold text-ink">Problem reports</h2>
           {state.problems.length === 0 && <p className="text-slate-600">None yet. Volunteers report problems from their checklist.</p>}
           {state.problems.slice(0, 5).map((pr) => (
             <div key={pr.id} className="rounded-xl border-l-4 border-red-600 bg-red-50 p-3">
@@ -100,8 +100,8 @@ export default function OrganiserDashboard() {
 
         <BugReports />
 
-        <section className="space-y-2 rounded-2xl bg-navy/5 p-4">
-          <h2 className="font-bold text-navy">Demo data</h2>
+        <section className="space-y-2 rounded-2xl bg-ink/5 p-4">
+          <h2 className="font-bold text-ink">Demo data</h2>
           <p className="text-sm text-slate-600">
             Puts every phone back to the start: ticks, assignments, locations, messages and problems. Elderly links stay
             the same.
@@ -127,8 +127,8 @@ export default function OrganiserDashboard() {
 
 function Stat({ value, label, alert }: { value: string; label: string; alert?: boolean }) {
   return (
-    <div className={`rounded-2xl p-3 ${alert ? "bg-red-600 text-white" : "bg-navy text-white"}`}>
-      <p className={`text-2xl font-bold ${alert ? "" : "text-sun"}`}>{value}</p>
+    <div className={`rounded-2xl p-3 ${alert ? "bg-red-600 text-white" : "bg-brand text-white"}`}>
+      <p className={`text-2xl font-bold ${alert ? "" : "text-white"}`}>{value}</p>
       <p className="text-xs">{label}</p>
     </div>
   );
@@ -141,13 +141,13 @@ function RecipientLinks({ tokens }: { tokens: Record<string, string> }) {
   const url = (token: string) => `${window.location.origin}/demo/elderly/${token}`;
 
   return (
-    <details className="rounded-2xl border-2 border-navy/10 p-4">
-      <summary className="cursor-pointer text-lg font-bold text-navy">Elderly links ({today.length})</summary>
+    <details className="rounded-2xl border-2 border-ink/10 p-4">
+      <summary className="cursor-pointer text-lg font-bold text-ink">Elderly links ({today.length})</summary>
       <p className="mt-2 text-sm text-slate-600">Each household has its own private link with no login. Open one in another window to watch its ETA.</p>
-      <ul className="mt-3 divide-y divide-navy/10">
+      <ul className="mt-3 divide-y divide-ink/10">
         {today.map((u) => (
           <li key={u.id} className="flex items-center gap-2 py-2">
-            <a href={`/demo/elderly/${tokens[u.id]}`} target="_blank" rel="noreferrer" className="flex-1 font-medium text-navy underline">
+            <a href={`/demo/elderly/${tokens[u.id]}`} target="_blank" rel="noreferrer" className="flex-1 font-medium text-ink underline">
               {unitLabel(u)}
             </a>
             <button
@@ -155,7 +155,7 @@ function RecipientLinks({ tokens }: { tokens: Record<string, string> }) {
               onClick={() =>
                 void navigator.clipboard?.writeText(url(tokens[u.id])).then(() => setCopied(u.id), () => setCopied(null))
               }
-              className="rounded-lg border border-navy/20 px-2 py-1 text-xs font-semibold text-navy"
+              className="rounded-lg border border-ink/20 px-2 py-1 text-xs font-semibold text-ink"
             >
               {copied === u.id ? "Copied" : "Copy link"}
             </button>

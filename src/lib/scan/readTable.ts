@@ -29,20 +29,19 @@ const headerField = (text: string) => {
   return HEADER_WORDS.find(([, words]) => words.includes(key))?.[0];
 };
 
-// Characters each column can hold. Stops Tesseract reading "V" as "Vv" or "0" as "O".
+// Characters a strip can hold. Stops Tesseract reading "H" as "Hh" in the meal column.
 export const WHITELIST: Partial<Record<Field, string>> = {
-  block: "0123456789ABCDEFGH",
-  unit: "#0123456789-",
-  postal: "0123456789",
   meal: "ABCDEFGHIJKLMNOPQRSTUVWXYZ-/",
-  slot: "LDld",
 };
 
 const centreY = (w: OcrWord) => (w.y0 + w.y1) / 2;
 const height = (w: OcrWord) => w.y1 - w.y0;
 const medianOf = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)] ?? 0;
 
-export type Columns = { headerBottom: number; columns: { field: Field; left: number; right: number }[] };
+export type Columns = {
+  headerBottom: number;
+  columns: { field: Field; centre: number; left: number; right: number }[];
+};
 
 // Finds the header line (the one with Block and Unit) and where each column starts and ends. Column edges are the
 // widest gap in the data between two header centres, since OCR words never cross a column line.
@@ -96,27 +95,39 @@ export function findColumns(page: OcrResult, imageWidth: number): Columns | null
     };
 
     const edges = centres.slice(1).map((c, i) => edgeBetween(centres[i].x, c.x));
-    const columns = centres.map((c, i) => ({ field: c.field, left: i ? edges[i - 1] : 0, right: edges[i] ?? imageWidth }));
-
-    // A column whose header OCR missed (L/D read as "wo") shows up as a wide empty strip inside its neighbour. The
-    // part under the header keeps the field; the other part is set aside.
-    const lineHeight = typical;
-    const split = columns.flatMap((c) => {
-      const centre = centres.find((x) => x.field === c.field && x.x >= c.left && x.x <= c.right)?.x ?? c.left;
-      const textLeft = data.filter((w) => w.x0 >= c.left).reduce((m, w) => Math.min(m, w.x0), c.right);
-      const textRight = data.filter((w) => w.x1 <= c.right).reduce((m, w) => Math.max(m, w.x1), c.left);
-      const inner = gaps(textLeft, textRight).find((g) => g.end - g.start > lineHeight);
-      if (!inner || c.field === "other" || c.field === "remarks") return [c];
-      const at = (inner.start + inner.end) / 2;
-      const parts = [
-        { field: c.field, left: c.left, right: at },
-        { field: c.field, left: at, right: c.right },
-      ];
-      return parts.map((p) => (centre >= p.left && centre < p.right ? p : { ...p, field: "other" as Field }));
-    });
-    return { headerBottom, columns: split };
+    const columns = centres.map((c, i) => ({
+      field: c.field,
+      centre: c.x,
+      left: i ? edges[i - 1] : 0,
+      right: edges[i] ?? imageWidth,
+    }));
+    return { headerBottom, columns };
   }
   return null;
+}
+
+// Strips specks OCR glues onto a word ("|501", "640501,").
+const bare = (s: string) => s.replace(/^[|[\]{}'"‘’`,.:;]+|[|[\]{}'"‘’`,.:;]+$/g, "");
+
+// Block, unit and postal code each have a clear shape, so they are picked out of the whole-page read by shape. The
+// header positions only decide which short number is the block (not the S/N or the street number).
+export function pickByShape(page: OcrResult, found: Columns): Partial<Record<Field, OcrWord[]>> {
+  const data = page.words
+    .filter((w) => w.y0 >= found.headerBottom)
+    .map((w) => ({ ...w, text: bare(w.text) }));
+  // A word belongs under a heading when it is nearer to that heading than to the next one along.
+  const under = (f: Field) => {
+    const own = found.columns.find((c) => c.field === f);
+    if (!own) return () => f !== "block";
+    const gap = Math.min(...found.columns.filter((c) => c !== own).map((c) => Math.abs(c.centre - own.centre)));
+    return (w: OcrWord) => Math.abs((w.x0 + w.x1) / 2 - own.centre) <= gap * 0.6;
+  };
+  const [inBlock, inUnit, inPostal] = [under("block"), under("unit"), under("postal")];
+
+  const unit = data.filter((w) => /[#-]/.test(w.text) && /^#?\d{1,2}-?\d{2,5}[A-Z]?$/i.test(digits(w.text)) && inUnit(w));
+  const postal = data.filter((w) => /^\d{6}$/.test(digits(w.text)) && inPostal(w));
+  const block = data.filter((w) => /^\d{1,4}[A-H]?$/i.test(w.text) && inBlock(w));
+  return { unit, postal, block };
 }
 
 const keep = (s: string, allowed: RegExp) => s.toUpperCase().replace(allowed, "");
@@ -129,7 +140,16 @@ const clean = {
     return m ? `#${m[1].padStart(2, "0")}-${m[2]}` : s.trim();
   },
   postal: (s: string) => digits(s).replace(/\D/g, ""),
-  meal: (s: string) => keep(s, /[^A-Z/ -]/g).trim(),
+  // The meal strip also takes in the L/D letter before it and the volunteer name after it ("D HBRNTU"), so the code
+  // is read from the start of the first word with an H. B is often read as E or 8. Unknown text is kept to fix by hand.
+  meal: (s: string) => {
+    const text = keep(s, /[^A-Z0-9/ -]/g).trim();
+    for (const word of text.split(/\s+/)) {
+      const m = word.replace(/^[DL](?=H)/, "").match(/^[^H]?H(-?[BE8]R|-?M|H)?/);
+      if (m) return { "": "H", H: "HH", M: "H-M" }[(m[1] ?? "").replace("-", "")] ?? "H-BR";
+    }
+    return text;
+  },
   // Drops bits of table lines read as | [ ] and, when the S/N column was not found, its row number.
   // An empty cell often comes back as specks like "C13" or ". I", so text with no real word is dropped.
   remarks: (s: string, leftmost: boolean) => {
@@ -232,24 +252,34 @@ export async function readTable(
   if (!found) {
     return { date: findDate(page.lines), slot: findSlot(page.lines, []), rows: rowsFromLines(page.lines), foundHeader: false };
   }
+  const byField = pickByShape(page, found);
 
-  const wanted = found.columns.filter((c) => c.field !== "other");
-  const byField: Partial<Record<Field, OcrWord[]>> = {};
-  for (const [i, c] of wanted.entries()) {
-    onStep?.(i + 1, wanted.length);
+  // Meal codes ("H", "HH") and instructions are read again from their own strip: the whole-page read skips lone
+  // letters and mixes up wrapped lines. The meal strip starts after the postal codes, so it also takes in L/D.
+  const column = (f: Field) => found.columns.find((c) => c.field === f);
+  const postalRight = Math.max(0, ...(byField.postal ?? []).map((w) => w.x1));
+  const strips: { field: Field; left: number; right: number }[] = [];
+  const remarks = column("remarks");
+  if (remarks) strips.push({ field: "remarks", left: remarks.left, right: remarks.right });
+  const meal = column("meal");
+  if (meal) strips.push({ field: "meal", left: Math.max(postalRight, column("slot")?.left ?? 0) + 2, right: meal.right });
+
+  for (const [i, s] of strips.entries()) {
+    onStep?.(i + 1, strips.length);
     const rect = {
-      left: Math.max(0, Math.floor(c.left)),
+      left: Math.max(0, Math.floor(s.left)),
       top: Math.floor(found.headerBottom),
-      width: Math.max(1, Math.floor(c.right - c.left)),
+      width: Math.max(1, Math.floor(s.right - s.left)),
       height: Math.max(1, Math.floor(size.height - found.headerBottom)),
     };
-    byField[c.field] = (await ocr({ rect, mode: "block", whitelist: WHITELIST[c.field] })).words;
+    byField[s.field] = (await ocr({ rect, mode: "block", whitelist: WHITELIST[s.field] })).words;
   }
 
   const above = page.lines.filter((l) => l.y1 <= found.headerBottom);
+  const slotLetters = (byField.meal ?? []).filter((w) => /^[DL]$/i.test(w.text));
   return {
     date: findDate(above) ?? findDate(page.lines),
-    slot: findSlot(above, byField.slot ?? []),
+    slot: findSlot(above, slotLetters),
     rows: buildRows(byField, found.columns[0].field === "remarks"),
     foundHeader: true,
   };

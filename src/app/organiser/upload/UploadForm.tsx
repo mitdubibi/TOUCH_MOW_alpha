@@ -123,7 +123,7 @@ export function UploadForm({ centres }: { centres: Centre[] }) {
         </select>
       </label>
 
-      <div role="tablist" className="grid grid-cols-2 overflow-hidden rounded-lg border border-teal-700">
+      <div role="tablist" className="grid grid-cols-2 overflow-hidden rounded-lg border border-brand">
         {(
           [
             ["csv", "CSV file"],
@@ -140,7 +140,7 @@ export function UploadForm({ centres }: { centres: Centre[] }) {
               setMode(m);
               reset();
             }}
-            className={`py-3 font-semibold ${mode === m ? "bg-teal-700 text-white" : "bg-white text-teal-800"}`}
+            className={`py-3 font-semibold ${mode === m ? "bg-brand text-white" : "bg-white text-brand-dark"}`}
           >
             {label}
           </button>
@@ -178,7 +178,7 @@ export function UploadForm({ centres }: { centres: Centre[] }) {
             />
           </label>
           {scanning && (
-            <p role="status" className="rounded-lg bg-teal-50 p-3 font-medium text-teal-900">
+            <p role="status" className="rounded-lg bg-brand-light p-3 font-medium text-brand-dark">
               {scanning}
             </p>
           )}
@@ -264,15 +264,15 @@ export function UploadForm({ centres }: { centres: Centre[] }) {
           type="button"
           disabled={!canConfirm}
           onClick={onConfirm}
-          className="w-full rounded-lg bg-teal-700 py-3 text-lg font-semibold text-white disabled:opacity-50"
+          className="w-full rounded-lg bg-brand py-3 text-lg font-semibold text-white disabled:opacity-50"
         >
           {submitting ? "Uploading..." : `Upload ${result.rows.length} units`}
         </button>
       )}
 
       {summary && (
-        <div className="rounded-lg border border-teal-300 bg-teal-50 p-4">
-          <p className="font-semibold text-teal-900">List uploaded.</p>
+        <div className="rounded-lg border border-brand/40 bg-brand-light p-4">
+          <p className="font-semibold text-brand-dark">List uploaded.</p>
           <ul className="mt-2 space-y-2">
             {summary.map((s) => (
               <li key={s.id}>

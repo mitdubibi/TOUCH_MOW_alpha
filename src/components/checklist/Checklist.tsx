@@ -203,7 +203,7 @@ export function Checklist({
         </div>
         <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-200" aria-hidden>
           <div
-            className="h-full bg-teal-600 transition-all"
+            className="h-full bg-brand transition-all"
             style={{ width: `${overall.total ? (overall.done / overall.total) * 100 : 0}%` }}
           />
         </div>
@@ -228,7 +228,7 @@ export function Checklist({
                 {stop && (
                   <span
                     aria-label={`Stop ${stop}`}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-navy text-base text-sun"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-base text-white"
                   >
                     {stop}
                   </span>
@@ -319,7 +319,7 @@ function ChecklistRow({
           aria-label={done ? `Undo ${item.unit_no}` : `Mark ${item.unit_no} delivered`}
           onClick={() => onSetStatus(item, done ? "pending" : "delivered")}
           className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border-2 text-3xl font-bold ${
-            done ? "border-teal-700 bg-teal-600 text-white" : "border-slate-400 bg-white text-slate-300"
+            done ? "border-brand bg-brand text-white" : "border-slate-400 bg-white text-slate-300"
           }`}
         >
           ✓

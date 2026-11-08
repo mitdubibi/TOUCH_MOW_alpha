@@ -19,7 +19,7 @@ export function SessionCard({ session, statuses, href }: Props) {
       <p className="text-slate-700">{session.centres?.name}</p>
       <div className="mt-2 flex items-center gap-3">
         <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-200" aria-hidden>
-          <div className="h-full bg-teal-600" style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
+          <div className="h-full bg-brand" style={{ width: `${total ? (done / total) * 100 : 0}%` }} />
         </div>
         <span className="text-sm text-slate-700">
           {done} of {total} done

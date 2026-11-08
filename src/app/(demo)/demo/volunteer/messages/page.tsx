@@ -26,19 +26,19 @@ export default function VolunteerMessages() {
           <div key={m.id} className={`flex ${m.from === "volunteer" ? "justify-end" : "justify-start"}`}>
             <div
               className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                m.from === "volunteer" ? "rounded-br-sm bg-navy text-white" : "rounded-bl-sm bg-sun-light text-navy"
+                m.from === "volunteer" ? "rounded-br-sm bg-brand text-white" : "rounded-bl-sm bg-brand-light text-ink"
               }`}
             >
               {m.from === "organiser" && <p className="text-xs font-bold">TOUCH</p>}
               <p>{m.body}</p>
-              <p className={`text-right text-xs ${m.from === "volunteer" ? "text-white/60" : "text-navy/50"}`}>{m.time}</p>
+              <p className={`text-right text-xs ${m.from === "volunteer" ? "text-white/60" : "text-ink/50"}`}>{m.time}</p>
             </div>
           </div>
         ))}
         <div ref={bottom} />
       </main>
       <form
-        className="sticky bottom-0 flex gap-2 border-t border-navy/10 bg-white p-3"
+        className="sticky bottom-0 flex gap-2 border-t border-ink/10 bg-white p-3"
         onSubmit={(e) => {
           e.preventDefault();
           if (!draft.trim()) return;
@@ -54,7 +54,7 @@ export default function VolunteerMessages() {
           aria-label="Message TOUCH"
           className="flex-1 rounded-full border border-slate-300 px-4 py-2"
         />
-        <button className="rounded-full bg-sun px-4 font-bold text-navy">Send</button>
+        <button className="rounded-full bg-ink px-4 font-bold text-white">Send</button>
       </form>
     </>
   );

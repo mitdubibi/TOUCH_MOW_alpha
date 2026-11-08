@@ -51,7 +51,7 @@ export function BlockPhotoUpload({ postalCode, blockNo, photoPath }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <label
-        className={`cursor-pointer rounded-lg bg-teal-700 px-3 py-2 text-sm font-semibold text-white ${busy ? "opacity-50" : ""}`}
+        className={`cursor-pointer rounded-lg bg-brand px-3 py-2 text-sm font-semibold text-white ${busy ? "opacity-50" : ""}`}
       >
         {busy ? "Saving..." : photoPath ? "Replace photo" : "Add photo"}
         <input

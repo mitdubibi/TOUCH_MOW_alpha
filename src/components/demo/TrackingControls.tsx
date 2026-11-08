@@ -10,7 +10,7 @@ export function TrackingControls({ sessionId }: { sessionId: string }) {
 
   if (tracking && !mine) {
     return (
-      <div className="rounded-2xl bg-navy/5 p-3 text-sm text-navy">
+      <div className="rounded-2xl bg-ink/5 p-3 text-sm text-ink">
         This tab is already sharing a location for another session or volunteer.{" "}
         <button type="button" onClick={stopTracking} className="font-semibold underline">
           Stop it
@@ -21,13 +21,13 @@ export function TrackingControls({ sessionId }: { sessionId: string }) {
 
   if (mine) {
     return (
-      <div className="space-y-2 rounded-2xl border-2 border-navy bg-sun-light p-3" aria-live="polite">
-        <p className="flex items-center gap-2 font-bold text-navy">
+      <div className="space-y-2 rounded-2xl border-2 border-ink bg-brand-light p-3" aria-live="polite">
+        <p className="flex items-center gap-2 font-bold text-ink">
           <span className="h-3 w-3 animate-pulse rounded-full bg-green-600" aria-hidden />
           {tracking.mode === "gps" ? "Sharing your location" : "Simulated walking"}
         </p>
-        <p className="text-sm text-navy">{tracking.note}</p>
-        <button type="button" onClick={stopTracking} className="w-full rounded-xl border-2 border-navy py-2 font-semibold text-navy">
+        <p className="text-sm text-ink">{tracking.note}</p>
+        <button type="button" onClick={stopTracking} className="w-full rounded-xl border-2 border-ink py-2 font-semibold text-ink">
           {tracking.mode === "gps" ? "Stop sharing" : "Stop walking"}
         </button>
       </div>
@@ -39,14 +39,14 @@ export function TrackingControls({ sessionId }: { sessionId: string }) {
       <button
         type="button"
         onClick={() => startTracking(sessionId, "gps")}
-        className="rounded-2xl bg-navy py-3 text-lg font-bold text-sun"
+        className="rounded-2xl bg-brand py-3 text-lg font-bold text-white"
       >
         ▶ Start delivery
       </button>
       <button
         type="button"
         onClick={() => startTracking(sessionId, "sim")}
-        className="rounded-2xl border-2 border-navy py-3 text-sm font-semibold leading-tight text-navy"
+        className="rounded-2xl border-2 border-ink py-3 text-sm font-semibold leading-tight text-ink"
       >
         Simulate walking
       </button>

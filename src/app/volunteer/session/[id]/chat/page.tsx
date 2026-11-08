@@ -24,7 +24,7 @@ export default async function VolunteerChatPage({ params }: { params: Promise<{ 
             {formatDate(session.date)} · {SLOT_LABEL[session.slot]} {formatTime(session.start_time)}
           </p>
         </div>
-        <Link href={`/volunteer/session/${id}`} className="shrink-0 font-semibold text-teal-800 underline">
+        <Link href={`/volunteer/session/${id}`} className="shrink-0 font-semibold text-brand-dark underline">
           Checklist
         </Link>
       </div>

@@ -64,14 +64,14 @@ export default async function TrackPage({
     <main className="mx-auto flex min-h-dvh max-w-[480px] flex-col bg-white p-4" lang={lang === "zh" ? "zh" : "en"}>
       <AutoRefresh seconds={30} />
       <div className="flex items-center justify-between">
-        <p className="text-xl font-bold text-navy">TOUCH</p>
-        <div className="flex overflow-hidden rounded-full border-2 border-navy text-xl font-bold">
+        <p className="text-xl font-bold text-ink">TOUCH</p>
+        <div className="flex overflow-hidden rounded-full border-2 border-ink text-xl font-bold">
           {(["en", "zh"] as const).map((l) => (
             <Link
               key={l}
               href={`?lang=${l}`}
               replace
-              className={`px-5 py-2 ${lang === l ? "bg-navy text-sun" : "text-navy"}`}
+              className={`px-5 py-2 ${lang === l ? "bg-brand text-white" : "text-ink"}`}
             >
               {l === "en" ? "EN" : "中文"}
             </Link>
@@ -91,7 +91,7 @@ export default async function TrackPage({
 function StatusCard({ view, t }: { view: TrackView; t: (typeof T)[Lang] }) {
   if (view.kind === "delivered") {
     return (
-      <div className="flex w-full flex-col items-center justify-center rounded-3xl bg-sun p-6 text-center text-navy" aria-live="polite">
+      <div className="flex w-full flex-col items-center justify-center rounded-3xl bg-ink p-6 text-center text-white" aria-live="polite">
         <p className="text-9xl font-black" aria-hidden>
           ✓
         </p>
@@ -113,12 +113,12 @@ function StatusCard({ view, t }: { view: TrackView; t: (typeof T)[Lang] }) {
             : [t.none, ""];
 
   return (
-    <div className="flex w-full flex-col justify-center rounded-3xl bg-navy p-6 text-white" aria-live="polite">
+    <div className="flex w-full flex-col justify-center rounded-3xl bg-brand p-6 text-white" aria-live="polite">
       <p className="text-6xl" aria-hidden>
         🍱
       </p>
       <p className="mt-4 text-5xl font-bold leading-tight">{big}</p>
-      {small && <p className="mt-6 text-4xl font-semibold leading-snug text-sun">{small}</p>}
+      {small && <p className="mt-6 text-4xl font-semibold leading-snug text-white">{small}</p>}
     </div>
   );
 }

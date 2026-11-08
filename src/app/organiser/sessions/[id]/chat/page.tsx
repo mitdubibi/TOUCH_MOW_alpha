@@ -23,7 +23,7 @@ export default async function OrganiserChatPage({ params }: { params: Promise<{ 
             {formatDate(session.date)} · {SLOT_LABEL[session.slot]} {formatTime(session.start_time)}
           </p>
         </div>
-        <Link href={`/organiser/sessions/${id}`} className="shrink-0 font-semibold text-teal-800 underline">
+        <Link href={`/organiser/sessions/${id}`} className="shrink-0 font-semibold text-brand-dark underline">
           Session
         </Link>
       </div>

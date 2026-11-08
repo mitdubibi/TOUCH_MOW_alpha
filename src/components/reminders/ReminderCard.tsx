@@ -29,7 +29,7 @@ export function ReminderCard({ reminder }: { reminder: ReminderRow & { sessions:
   });
 
   return (
-    <section role="status" className="space-y-2 rounded-xl border-2 border-sun bg-sun-light p-4 text-navy">
+    <section role="status" className="space-y-2 rounded-xl border-2 border-brand bg-brand-light p-4 text-ink">
       <h2 className="text-lg font-bold">🔔 {m.title}</h2>
       <p>
         <span className="font-semibold">When: </span>
@@ -42,13 +42,13 @@ export function ReminderCard({ reminder }: { reminder: ReminderRow & { sessions:
       <div className="flex gap-2 pt-1">
         <Link
           href={`/volunteer/session/${reminder.session_id}`}
-          className="flex-1 rounded-lg bg-navy px-3 py-2 text-center font-semibold text-white"
+          className="flex-1 rounded-lg bg-brand px-3 py-2 text-center font-semibold text-white"
         >
           Open checklist
         </Link>
         <form action={dismissReminder}>
           <input type="hidden" name="sessionId" value={reminder.session_id} />
-          <button className="rounded-lg border-2 border-navy px-4 py-2 font-semibold">Got it</button>
+          <button className="rounded-lg border-2 border-ink px-4 py-2 font-semibold">Got it</button>
         </form>
       </div>
     </section>

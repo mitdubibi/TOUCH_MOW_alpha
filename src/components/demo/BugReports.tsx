@@ -46,14 +46,14 @@ export function BugReports() {
   }, [supabase, load]);
 
   return (
-    <details className="rounded-2xl border-2 border-navy/10 p-4">
-      <summary className="cursor-pointer text-lg font-bold text-navy">Bug reports from testers ({reports?.length ?? 0})</summary>
+    <details className="rounded-2xl border-2 border-ink/10 p-4">
+      <summary className="cursor-pointer text-lg font-bold text-ink">Bug reports from testers ({reports?.length ?? 0})</summary>
       {error && <p className="mt-2 text-sm text-red-700">Could not load bug reports: {error}</p>}
       {reports?.length === 0 && <p className="mt-2 text-slate-600">None yet.</p>}
       <ul className="mt-3 space-y-3">
         {reports?.map((r) => (
-          <li key={r.id} className="rounded-xl bg-navy/5 p-3 text-sm">
-            <p className="font-semibold text-navy">
+          <li key={r.id} className="rounded-xl bg-ink/5 p-3 text-sm">
+            <p className="font-semibold text-ink">
               {r.role} · {r.phone_model || "phone not given"} · {formatDate(sgDate(r.created_at))} {formatClock(r.created_at)}
             </p>
             <p className="mt-1">

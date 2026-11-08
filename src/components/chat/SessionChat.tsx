@@ -87,19 +87,19 @@ export function SessionChat({ sessionId, meId, initialMessages }: Props) {
               <div className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                 <div
                   className={`max-w-[85%] rounded-2xl px-4 py-2 ${
-                    mine ? "rounded-br-sm bg-navy text-white" : "rounded-bl-sm bg-sun-light text-navy"
+                    mine ? "rounded-br-sm bg-brand text-white" : "rounded-bl-sm bg-brand-light text-ink"
                   }`}
                 >
                   {!mine && (
                     <p className="text-sm font-semibold">
                       {m.sender_name}
                       {m.sender_is_organiser && (
-                        <span className="ml-2 rounded bg-navy px-1.5 py-0.5 text-xs text-sun">TOUCH</span>
+                        <span className="ml-2 rounded bg-brand px-1.5 py-0.5 text-xs text-white">TOUCH</span>
                       )}
                     </p>
                   )}
                   <p className="whitespace-pre-wrap break-words text-lg">{m.body}</p>
-                  <p className={`text-right text-xs ${mine ? "text-white/70" : "text-navy/60"}`}>
+                  <p className={`text-right text-xs ${mine ? "text-white/70" : "text-ink/60"}`}>
                     {formatClock(m.created_at)}
                   </p>
                 </div>
@@ -130,7 +130,7 @@ export function SessionChat({ sessionId, meId, initialMessages }: Props) {
           />
           <button
             disabled={sending || !draft.trim()}
-            className="shrink-0 rounded-2xl bg-teal-700 px-4 font-semibold text-white disabled:opacity-50"
+            className="shrink-0 rounded-2xl bg-brand px-4 font-semibold text-white disabled:opacity-50"
           >
             {sending ? "..." : "Send"}
           </button>

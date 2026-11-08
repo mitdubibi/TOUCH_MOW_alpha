@@ -437,7 +437,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
 
   if (!state) {
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-navy p-6 text-center text-white">
+      <div className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-brand p-6 text-center text-white">
         {loadError ? (
           <>
             <p className="text-2xl font-bold">Could not load the demo data</p>
@@ -445,7 +445,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
             <p className="text-sm text-white/70">
               Check the Supabase keys in .env.local and that supabase/migrations/0007_demo_shared_data.sql has been run.
             </p>
-            <button type="button" onClick={() => void reload()} className="rounded-full bg-sun px-6 py-3 font-bold text-navy">
+            <button type="button" onClick={() => void reload()} className="rounded-full bg-ink px-6 py-3 font-bold text-white">
               Try again
             </button>
           </>

@@ -22,7 +22,7 @@ export default function VolunteerHome() {
           <select
             value={me.id}
             onChange={(e) => dispatch({ type: "setVolunteer", volunteerId: e.target.value })}
-            className="rounded-lg border border-slate-300 bg-white px-2 py-1 font-medium text-navy"
+            className="rounded-lg border border-slate-300 bg-white px-2 py-1 font-medium text-ink"
           >
             {VOLUNTEERS.map((v) => (
               <option key={v.id} value={v.id}>
@@ -32,16 +32,16 @@ export default function VolunteerHome() {
           </select>
         </label>
 
-        <Link href="/demo/volunteer/messages" className="block rounded-2xl border-l-8 border-sun bg-sun-light p-4">
+        <Link href="/demo/volunteer/messages" className="block rounded-2xl border-l-8 border-brand bg-brand-light p-4">
           {latest ? (
             <>
-              <p className="text-xs font-semibold uppercase tracking-wide text-navy/70">Message from TOUCH · {latest.time}</p>
-              <p className="mt-1 text-navy">{latest.body}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink/70">Message from TOUCH · {latest.time}</p>
+              <p className="mt-1 text-ink">{latest.body}</p>
             </>
           ) : (
-            <p className="text-navy">No messages from TOUCH yet.</p>
+            <p className="text-ink">No messages from TOUCH yet.</p>
           )}
-          <p className="mt-2 text-sm font-semibold text-navy underline">💬 Open messages and reply</p>
+          <p className="mt-2 text-sm font-semibold text-ink underline">💬 Open messages and reply</p>
         </Link>
 
         {mySessions.length === 0 && <p className="text-slate-600">No sessions yet. TOUCH will add you to one.</p>}
@@ -54,17 +54,17 @@ export default function VolunteerHome() {
             <Link
               key={s.id}
               href={`/demo/volunteer/session/${s.id}`}
-              className="block rounded-2xl border-2 border-navy/10 p-4 shadow-sm active:bg-sun-light"
+              className="block rounded-2xl border-2 border-ink/10 p-4 shadow-sm active:bg-brand-light"
             >
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-wide text-navy/60">
+                  <p className="text-sm font-semibold uppercase tracking-wide text-ink/60">
                     {when.day} · {when.date}
                   </p>
-                  <p className="text-2xl font-bold text-navy">{when.title}</p>
+                  <p className="text-2xl font-bold text-ink">{when.title}</p>
                 </div>
                 {s.dayOffset === 0 && (
-                  <span className="rounded-full bg-sun px-3 py-1 text-xs font-bold text-navy">TODAY</span>
+                  <span className="rounded-full bg-ink px-3 py-1 text-xs font-bold text-white">TODAY</span>
                 )}
               </div>
               <p className="mt-2 text-slate-700">

@@ -21,7 +21,7 @@ export default function MessagesDemo() {
     return (
       <>
         <DemoHeader title="Messages" subtitle="Volunteers, seniors and problem reports" />
-        <main className="flex-1 divide-y divide-navy/10">
+        <main className="flex-1 divide-y divide-ink/10">
           <ThreadRow
             icon="🏠"
             title="From seniors"
@@ -59,8 +59,8 @@ export default function MessagesDemo() {
 
   return (
     <>
-      <header className="sticky top-0 z-[1000] flex items-center gap-3 bg-navy px-4 py-4 text-white">
-        <button type="button" onClick={() => setOpen(null)} className="font-medium text-sun">
+      <header className="sticky top-0 z-[1000] flex items-center gap-3 bg-brand px-4 py-4 text-white">
+        <button type="button" onClick={() => setOpen(null)} className="font-medium text-white">
           ‹ All
         </button>
         <h1 className="text-xl font-bold">{title}</h1>
@@ -86,15 +86,15 @@ export default function MessagesDemo() {
 
         {open === "recipients" &&
           inThread("recipients").map((m) => (
-            <div key={m.id} className="rounded-xl border border-navy/10 p-3">
-              <p className="text-sm font-semibold text-navy/70">
+            <div key={m.id} className="rounded-xl border border-ink/10 p-3">
+              <p className="text-sm font-semibold text-ink/70">
                 {unitLabel(unitById(m.unitId!))} · {m.time}
               </p>
-              <p className="text-lg text-navy">{m.body}</p>
+              <p className="text-lg text-ink">{m.body}</p>
               <button
                 type="button"
                 onClick={() => setCalling(unitLabel(unitById(m.unitId!)))}
-                className="mt-2 rounded-lg bg-navy px-3 py-1.5 text-sm font-semibold text-sun"
+                className="mt-2 rounded-lg bg-brand px-3 py-1.5 text-sm font-semibold text-white"
               >
                 📞 Call back
               </button>
@@ -107,11 +107,11 @@ export default function MessagesDemo() {
             <div key={m.id} className={`flex ${m.from === "organiser" ? "justify-end" : "justify-start"}`}>
               <div
                 className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                  m.from === "organiser" ? "rounded-br-sm bg-navy text-white" : "rounded-bl-sm bg-sun-light text-navy"
+                  m.from === "organiser" ? "rounded-br-sm bg-brand text-white" : "rounded-bl-sm bg-brand-light text-ink"
                 }`}
               >
                 <p>{m.body}</p>
-                <p className={`text-right text-xs ${m.from === "organiser" ? "text-white/60" : "text-navy/50"}`}>{m.time}</p>
+                <p className={`text-right text-xs ${m.from === "organiser" ? "text-white/60" : "text-ink/50"}`}>{m.time}</p>
               </div>
             </div>
           ))}
@@ -119,7 +119,7 @@ export default function MessagesDemo() {
 
       {open !== "recipients" && open !== "problems" && (
         <form
-          className="sticky bottom-[57px] flex gap-2 border-t border-navy/10 bg-white p-3"
+          className="sticky bottom-[57px] flex gap-2 border-t border-ink/10 bg-white p-3"
           onSubmit={(e) => {
             e.preventDefault();
             if (!draft.trim()) return;
@@ -133,12 +133,12 @@ export default function MessagesDemo() {
             placeholder={`Message ${volunteerById(open).name}`}
             className="flex-1 rounded-full border border-slate-300 px-4 py-2"
           />
-          <button className="rounded-full bg-sun px-4 font-bold text-navy">Send</button>
+          <button className="rounded-full bg-ink px-4 font-bold text-white">Send</button>
         </form>
       )}
 
       {calling && (
-        <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-navy/95 p-6 text-center text-white">
+        <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-ink/95 p-6 text-center text-white">
           <div className="space-y-4">
             <p className="text-5xl">📞</p>
             <p className="text-2xl font-bold">Calling {calling}...</p>
@@ -171,19 +171,19 @@ function ThreadRow({
   onClick: () => void;
 }) {
   return (
-    <button type="button" onClick={onClick} className="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-sun-light">
+    <button type="button" onClick={onClick} className="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-brand-light">
       <span
-        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sun-light text-lg font-bold text-white"
+        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-light text-lg font-bold text-white"
         style={colour ? { background: colour } : undefined}
       >
         {icon}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block font-semibold text-navy">{title}</span>
+        <span className="block font-semibold text-ink">{title}</span>
         <span className="block truncate text-sm text-slate-600">{preview}</span>
       </span>
       {!!count && (
-        <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${alert ? "bg-red-600 text-white" : "bg-sun text-navy"}`}>
+        <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${alert ? "bg-red-600 text-white" : "bg-ink text-white"}`}>
           {count}
         </span>
       )}

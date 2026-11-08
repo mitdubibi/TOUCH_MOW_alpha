@@ -45,7 +45,7 @@ export default function AssignDemo() {
               type="button"
               onClick={() => setSessionId(s.id)}
               className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold ${
-                s.id === sessionId ? "bg-navy text-sun" : "bg-navy/5 text-navy"
+                s.id === sessionId ? "bg-brand text-white" : "bg-ink/5 text-ink"
               }`}
             >
               {sessionWhen(s).short}
@@ -60,7 +60,7 @@ export default function AssignDemo() {
             const nBlocks = blocks.filter((b) => assigned[b.postal] === vid).length;
             return (
               <div key={vid} className="rounded-xl border-2 p-2" style={{ borderColor: v.colour }}>
-                <p className="font-bold text-navy">{v.name}</p>
+                <p className="font-bold text-ink">{v.name}</p>
                 <p className="text-sm text-slate-600">
                   {p.total} meals · {nBlocks} blocks
                 </p>
@@ -72,7 +72,7 @@ export default function AssignDemo() {
         <button
           type="button"
           onClick={() => dispatch({ type: "autoSplit", sessionId })}
-          className="w-full rounded-xl bg-sun py-3 text-lg font-bold text-navy"
+          className="w-full rounded-xl bg-ink py-3 text-lg font-bold text-white"
         >
           ⚡ Auto split by block
         </button>
@@ -83,7 +83,7 @@ export default function AssignDemo() {
           {blocks.map((b) => {
             const vid = assigned[b.postal];
             return (
-              <li key={b.postal} className="flex items-center gap-3 rounded-xl border border-navy/10 p-3">
+              <li key={b.postal} className="flex items-center gap-3 rounded-xl border border-ink/10 p-3">
                 <span
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
                   style={{ background: vid ? volunteerById(vid).colour : "#64748b" }}
@@ -91,14 +91,14 @@ export default function AssignDemo() {
                   {b.blockNo}
                 </span>
                 <div className="flex-1">
-                  <p className="font-semibold text-navy">Blk {b.blockNo}</p>
+                  <p className="font-semibold text-ink">Blk {b.blockNo}</p>
                   <p className="text-sm text-slate-600">{unitsPerBlock.get(b.postal)} meals</p>
                 </div>
                 <select
                   value={vid ?? ""}
                   onChange={(e) => dispatch({ type: "assign", sessionId, postal: b.postal, volunteerId: e.target.value })}
                   aria-label={`Volunteer for Blk ${b.blockNo}`}
-                  className="rounded-lg border-2 border-navy/20 bg-white px-2 py-2 font-medium text-navy"
+                  className="rounded-lg border-2 border-ink/20 bg-white px-2 py-2 font-medium text-ink"
                 >
                   {!vid && <option value="">Choose</option>}
                   {session.team.map((t) => (

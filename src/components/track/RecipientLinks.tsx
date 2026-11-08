@@ -23,11 +23,11 @@ export function RecipientLinks({ sessionId, links }: { sessionId: string; links:
           <button
             type="button"
             onClick={() => copy(l.token)}
-            className="rounded-lg bg-navy px-3 py-1 text-sm font-semibold text-white"
+            className="rounded-lg bg-brand px-3 py-1 text-sm font-semibold text-white"
           >
             {copied === l.token ? "Copied" : "Copy link"}
           </button>
-          <a href={`/t/${l.token}`} target="_blank" rel="noreferrer" className="text-sm text-teal-800 underline">
+          <a href={`/t/${l.token}`} target="_blank" rel="noreferrer" className="text-sm text-brand-dark underline">
             Open
           </a>
           <form
