@@ -22,7 +22,7 @@ const HEADER_WORDS: [Field, string[]][] = [
   ["postal", ["postal", "code"]],
   ["meal", ["meal", "type"]],
   ["slot", ["l/d", "ld", "lud", "l/o", "lid", "ud", "u/d", "i/d", "/d", "session"]],
-  ["other", ["s/n", "sn", "sin", "s/no", "sno", "road", "volunteer", "name"]],
+  ["other", ["s/n", "sn", "sin", "s/no", "sno", "road", "volunteer", "name", "gender"]],
 ];
 const headerField = (text: string) => {
   const key = text.toLowerCase().replace(/[^a-z/]/g, "");
@@ -58,7 +58,8 @@ export function findColumns(page: OcrResult, imageWidth: number): Columns | null
     }
     if (!byField.has("unit")) continue;
 
-    const headerBottom = Math.max(...band.map((w) => w.y1)) + height(anchor) * 0.3;
+    // The first row can touch the heading bar, so rows are told apart from headings by their middle, not their top.
+    const headerBottom = Math.max(...band.map((w) => w.y1)) + 1;
     // Unnamed columns (S/N, Road, Volunteer Name) are kept as "other" so their text is not read as a neighbour's.
     const named = [...byField].map(([field, ws]) => ({ field, ws }));
     const others = band.filter((w) => headerField(w.text) === "other").map((w) => ({ field: "other" as Field, ws: [w] }));
@@ -68,7 +69,7 @@ export function findColumns(page: OcrResult, imageWidth: number): Columns | null
       .filter((c, i, all) => i === 0 || c.field !== all[i - 1].field || c.field !== "other");
 
     // Leftover bits of table lines get read as flat "LLL" or "___"; real text is at least half a line tall.
-    const below = page.words.filter((w) => w.y0 >= headerBottom && /[A-Za-z0-9]/.test(w.text));
+    const below = page.words.filter((w) => centreY(w) >= headerBottom && /[A-Za-z0-9]/.test(w.text));
     const typical = medianOf(below.map(height));
     const data = below.filter((w) => height(w) >= typical * 0.5);
     const covered = new Uint8Array(Math.ceil(imageWidth) + 2);
@@ -113,7 +114,7 @@ const bare = (s: string) => s.replace(/^[|[\]{}'"‘’`,.:;]+|[|[\]{}'"‘’`,
 // header positions only decide which short number is the block (not the S/N or the street number).
 export function pickByShape(page: OcrResult, found: Columns): Partial<Record<Field, OcrWord[]>> {
   const data = page.words
-    .filter((w) => w.y0 >= found.headerBottom)
+    .filter((w) => centreY(w) >= found.headerBottom)
     .map((w) => ({ ...w, text: bare(w.text) }));
   // A word belongs under a heading when it is nearer to that heading than to the next one along.
   const under = (f: Field) => {
@@ -148,19 +149,58 @@ const clean = {
       const m = word.replace(/^[DL](?=H)/, "").match(/^[^H]?H(-?[BE8]R|-?M|H)?/);
       if (m) return { "": "H", H: "HH", M: "H-M" }[(m[1] ?? "").replace("-", "")] ?? "H-BR";
     }
-    return text;
+    // A code glued to the next column's text ("VJURONG"): keep just the code letter.
+    return /^[A-Z][A-Z]{4,}$/.test(text) ? text[0] : text;
   },
   // Drops bits of table lines read as | [ ] and, when the S/N column was not found, its row number.
   // An empty cell often comes back as specks like "C13" or ". I", so text with no real word is dropped.
   remarks: (s: string, leftmost: boolean) => {
     const text = s
       .replace(/(^|\s)[|[\]{}_—-]+(?=\s|$)/g, " ")
+      .replace(/(^|\s)[|[\]{}]+(?=\S)/g, "$1")
       .replace(leftmost ? /^\s*\d{1,3}\b/ : /$^/, "")
       .replace(/\s+/g, " ")
       .trim();
     return /[A-Za-z]{3,}/.test(text) ? text : "";
   },
 };
+
+// Meal Type heading not read: the column is wherever the meal codes are (H-BR, HH, H-M).
+export function mealByCodes(page: OcrResult, found: Columns): { left: number; right: number } | null {
+  const codes = page.words.filter(
+    (w) => centreY(w) >= found.headerBottom && /^H(-?[BE8]R|-?M|H)$/.test(bare(w.text).toUpperCase()),
+  );
+  if (codes.length < 2) return null;
+  const lineHeight = medianOf(codes.map(height));
+  const middle = medianOf(codes.map((w) => (w.x0 + w.x1) / 2));
+  const near = codes.filter((w) => Math.abs((w.x0 + w.x1) / 2 - middle) < lineHeight * 3);
+  // Little margin: the next column (Road in some sheets) starts right after.
+  return {
+    left: Math.min(...near.map((w) => w.x0)) - lineHeight * 0.3,
+    right: Math.max(...near.map((w) => w.x1)) + lineHeight * 0.3,
+  };
+}
+
+// Special Instruction heading not read: in TOUCH's sheet it is the wide column after S/N, so take everything from
+// the end of the row numbers to the next column found.
+export function remarksByPosition(page: OcrResult, found: Columns): { left: number; right: number } | null {
+  const first = found.columns[0];
+  if (!first || first.field !== "other" || found.columns.length < 2) return null;
+  const numbers = page.words.filter(
+    (w) => centreY(w) >= found.headerBottom && w.x1 < first.right && /^\d{1,3}$/.test(bare(w.text)),
+  );
+  const sn = numbers.filter((w) => Math.abs((w.x0 + w.x1) / 2 - first.centre) < height(w) * 2);
+  if (!sn.length) return null;
+  const left = Math.max(...sn.map((w) => w.x1)) + 2;
+  return first.right - left > height(sn[0]) * 4 ? { left, right: first.right } : null;
+}
+
+// HDB postal codes end in the block number (Blk 459 is 640459), so a cell border read as an extra first digit
+// ("1459") is dropped when the rest matches.
+export function blockMatchingPostal(block: string, postal: string): string {
+  const m = block.match(/^\d(\d{3}[A-Z]?)$/);
+  return m && /^\d{6}$/.test(postal) && postal.endsWith(m[1].slice(0, 3)) ? m[1] : block;
+}
 
 // Lines up the column reads into rows. A row starts at each line with a block, unit or postal code; everything below
 // it (wrapped instructions) belongs to it until the next one.
@@ -178,17 +218,26 @@ export function buildRows(byField: Partial<Record<Field, OcrWord[]>>, remarksLef
   }
   const starts = tops.map((t) => t - lineHeight * 0.8);
 
+  // Block, unit and postal code sit on a row's first line, so each goes to the nearest one. Instructions and meal
+  // codes can wrap, so they take everything down to the next row.
+  const nearestRow = (w: OcrWord) =>
+    tops.reduce((best, t, i) => (Math.abs(centreY(w) - t) < Math.abs(centreY(w) - tops[best]) ? i : best), 0);
   return starts.map((start, i) => {
     const end = starts[i + 1] ?? Infinity;
     const text = (f: Field) =>
       (byField[f] ?? [])
-        .filter((w) => centreY(w) >= start && centreY(w) < end)
+        .filter((w) =>
+          f === "block" || f === "unit" || f === "postal"
+            ? nearestRow(w) === i
+            : centreY(w) >= start && centreY(w) < end,
+        )
         .map((w) => w.text)
         .join(" ");
+    const postalCode = clean.postal(text("postal"));
     return {
-      block: clean.block(text("block")),
+      block: blockMatchingPostal(clean.block(text("block")), postalCode),
       unit: clean.unit(text("unit")),
-      postalCode: clean.postal(text("postal")),
+      postalCode,
       mealType: clean.meal(text("meal")),
       remarks: clean.remarks(text("remarks"), remarksLeftmost),
     };
@@ -255,14 +304,22 @@ export async function readTable(
   const byField = pickByShape(page, found);
 
   // Meal codes ("H", "HH") and instructions are read again from their own strip: the whole-page read skips lone
-  // letters and mixes up wrapped lines. The meal strip starts after the postal codes, so it also takes in L/D.
+  // letters and mixes up wrapped lines. When the meal column comes straight after Postal Code (L/D heading not
+  // read), the strip starts after the postal codes and may take in the L/D letter, which clean.meal drops.
   const column = (f: Field) => found.columns.find((c) => c.field === f);
-  const postalRight = Math.max(0, ...(byField.postal ?? []).map((w) => w.x1));
   const strips: { field: Field; left: number; right: number }[] = [];
-  const remarks = column("remarks");
+  const remarks = column("remarks") ?? remarksByPosition(page, found);
   if (remarks) strips.push({ field: "remarks", left: remarks.left, right: remarks.right });
   const meal = column("meal");
-  if (meal) strips.push({ field: "meal", left: Math.max(postalRight, column("slot")?.left ?? 0) + 2, right: meal.right });
+  if (meal) {
+    const before = found.columns[found.columns.indexOf(meal) - 1];
+    const postalRight = Math.max(0, ...(byField.postal ?? []).map((w) => w.x1));
+    const left = before?.field === "postal" ? Math.max(meal.left, postalRight + 2) : meal.left;
+    strips.push({ field: "meal", left, right: meal.right });
+  } else {
+    const byCodes = mealByCodes(page, found);
+    if (byCodes) strips.push({ field: "meal", ...byCodes });
+  }
 
   for (const [i, s] of strips.entries()) {
     onStep?.(i + 1, strips.length);

@@ -19,15 +19,16 @@ function integral(v: Uint8ClampedArray, w: number, h: number): Uint32Array {
   return s;
 }
 
-function localMeans(v: Uint8ClampedArray, w: number, h: number, r: number): Float32Array {
+// Mean of the (2rx+1) x (2ry+1) box around each pixel.
+function localMeans(v: Uint8ClampedArray, w: number, h: number, rx: number, ry = rx): Float32Array {
   const s = integral(v, w, h);
   const out = new Float32Array(w * h);
   for (let y = 0; y < h; y++) {
-    const y0 = Math.max(0, y - r);
-    const y1 = Math.min(h, y + r + 1);
+    const y0 = Math.max(0, y - ry);
+    const y1 = Math.min(h, y + ry + 1);
     for (let x = 0; x < w; x++) {
-      const x0 = Math.max(0, x - r);
-      const x1 = Math.min(w, x + r + 1);
+      const x0 = Math.max(0, x - rx);
+      const x1 = Math.min(w, x + rx + 1);
       const sum = s[y1 * (w + 1) + x1] - s[y0 * (w + 1) + x1] - s[y1 * (w + 1) + x0] + s[y0 * (w + 1) + x0];
       out[y * w + x] = sum / ((x1 - x0) * (y1 - y0));
     }
@@ -101,13 +102,22 @@ function rotate(b: Uint8ClampedArray, w: number, h: number, angle: number, blank
 export function cleanImage(rgba: Uint8ClampedArray, w: number, h: number): Uint8ClampedArray {
   const grey = new Uint8ClampedArray(w * h);
   for (let i = 0; i < w * h; i++) {
-    grey[i] = 0.299 * rgba[i * 4] + 0.587 * rgba[i * 4 + 1] + 0.114 * rgba[i * 4 + 2];
+    const [red, green, blue] = [rgba[i * 4], rgba[i * 4 + 1], rgba[i * 4 + 2]];
+    // Excel's green "number stored as text" corner marks sit on the first digit of blocks and postal codes.
+    grey[i] = green > red + 40 && green > blue + 20 ? 255 : 0.299 * red + 0.587 * green + 0.114 * blue;
   }
 
   const r = Math.max(8, Math.round(Math.max(w, h) / 100));
   const paperLevel = median(grey);
+  // White text on a dark background: inside a big dark area, or inside a heading bar only one line high. A bar is
+  // spotted along the row (mostly dark across a wide stretch, with gaps for the letters); plain black text never
+  // covers that much.
   const before = localMeans(grey, w, h, r);
-  for (let i = 0; i < grey.length; i++) if (before[i] < paperLevel * 0.45) grey[i] = 255 - grey[i];
+  const dark = grey.map((g) => (g < paperLevel * 0.5 ? 255 : 0));
+  const darkAlongRow = localMeans(dark, w, h, r * 4, 1);
+  for (let i = 0; i < grey.length; i++) {
+    if (before[i] < paperLevel * 0.45 || darkAlongRow[i] > 255 * 0.65) grey[i] = 255 - grey[i];
+  }
 
   const toInk = (g: Uint8ClampedArray) => {
     const around = localMeans(g, w, h, r);

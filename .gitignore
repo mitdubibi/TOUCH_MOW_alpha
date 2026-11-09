@@ -43,3 +43,11 @@ next-env.d.ts
 
 # Combined SQL for pasting into Supabase (generated)
 supabase/setup-*.sql
+
+# Photos or exports of real delivery lists (PDPA): never commit. Keep test pictures in the project root.
+/*.jpg
+/*.jpeg
+/*.png
+/*.heic
+/*.xlsx
+/*.csv

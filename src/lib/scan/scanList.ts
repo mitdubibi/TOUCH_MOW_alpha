@@ -3,8 +3,9 @@
 import { cleanImage } from "./cleanImage";
 import { readTable, type OcrResult, type ScanResult } from "./readTable";
 
-// Tesseract reads best with text about 30 to 40 pixels tall, so photos are scaled to roughly this size.
-const LONG_SIDE_MIN = 2400;
+// Tesseract reads best with text about 30 to 40 pixels tall, so photos are scaled to roughly this size. Small
+// screenshots are scaled up, or their thin heading text is lost.
+const LONG_SIDE_MIN = 3000;
 const LONG_SIDE_MAX = 3200;
 
 export async function scanList(file: File, onProgress: (message: string) => void): Promise<ScanResult> {

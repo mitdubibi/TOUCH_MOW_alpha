@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  blockMatchingPostal,
   buildRows,
   findColumns,
   findDate,
@@ -101,6 +102,20 @@ describe("buildRows", () => {
       remarks: [w("|", 300, 0), w("C13", 320, 0)],
     });
     expect(r).toEqual({ block: "501", unit: "#03-110", postalCode: "640501", mealType: "", remarks: "" });
+  });
+});
+
+describe("small OCR fixes", () => {
+  it("drops a cell border read as an extra first digit of the block, using the postal code", () => {
+    expect(blockMatchingPostal("1459", "640459")).toBe("459");
+    expect(blockMatchingPostal("1530A", "641530")).toBe("530A");
+    expect(blockMatchingPostal("1459", "640460")).toBe("1459");
+    expect(blockMatchingPostal("459", "640459")).toBe("459");
+  });
+
+  it("reads meal codes glued to the next column, and the L/D letter before them", () => {
+    const meal = (text: string) => buildRows({ unit: [w("#01-101", 0, 0)], meal: [w(text, 100, 0)] })[0].mealType;
+    expect(["HBRNTU", "DH-M", "HER", "OH", "HHNTU", "VJURONG"].map(meal)).toEqual(["H-BR", "H-M", "H-BR", "H", "HH", "V"]);
   });
 });
 
