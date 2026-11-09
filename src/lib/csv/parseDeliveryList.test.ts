@@ -58,11 +58,11 @@ describe("parseDeliveryList", () => {
   it("accepts only TOUCH's meal codes, plus the words normal and minced", () => {
     const csv = [
       HEADER,
-      ...["normal", "hh", "H", "Minced", "HBR", "Soft"].map((m, i) => `15/10/2026,Lunch,518,#05-10${i},640518,${m},`),
+      ...["normal", "hh", "H", "Minced", "HBR", "hb", "v", "Soft"].map((m, i) => `15/10/2026,Lunch,518,#05-10${i},640518,${m},`),
     ].join("\n");
     const { rows, errors } = parseDeliveryList(csv);
-    expect(rows.map((r) => r.mealType)).toEqual(["H-BR", "HH", "H", "H-M", "H-BR"]);
-    expect(errors).toEqual([{ line: 7, message: 'meal type "Soft" should be H-BR, HH, H, H-M' }]);
+    expect(rows.map((r) => r.mealType)).toEqual(["H-BR", "HH", "H", "H-M", "H-BR", "H-B", "V"]);
+    expect(errors).toEqual([{ line: 9, message: 'meal type "Soft" should be H-BR, HH, H, H-M, H-B, V' }]);
   });
 
   it("reports every problem on a row with its line number", () => {

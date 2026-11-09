@@ -115,7 +115,7 @@ describe("small OCR fixes", () => {
 
   it("reads meal codes glued to the next column, and the L/D letter before them", () => {
     const meal = (text: string) => buildRows({ unit: [w("#01-101", 0, 0)], meal: [w(text, 100, 0)] })[0].mealType;
-    expect(["HBRNTU", "DH-M", "HER", "OH", "HHNTU", "VJURONG"].map(meal)).toEqual(["H-BR", "H-M", "H-BR", "H", "HH", "V"]);
+    expect(["HBRNTU", "DH-M", "HER", "OH", "HHNTU", "VJURONG", "H-B", "DH-BNTU", "V"].map(meal)).toEqual(["H-BR", "H-M", "H-BR", "H", "HH", "V", "H-B", "H-B", "V"]);
   });
 });
 

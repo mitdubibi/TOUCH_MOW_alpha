@@ -146,8 +146,8 @@ const clean = {
   meal: (s: string) => {
     const text = keep(s, /[^A-Z0-9/ -]/g).trim();
     for (const word of text.split(/\s+/)) {
-      const m = word.replace(/^[DL](?=H)/, "").match(/^[^H]?H(-?[BE8]R|-?M|H)?/);
-      if (m) return { "": "H", H: "HH", M: "H-M" }[(m[1] ?? "").replace("-", "")] ?? "H-BR";
+      const m = word.replace(/^[DL](?=H)/, "").match(/^[^H]?H(-?[BE8]R|-?[BE8]|-?M|H)?/);
+      if (m) return { "": "H", H: "HH", M: "H-M" }[(m[1] ?? "").replace("-", "")] ?? (/R$/.test(m[1]!) ? "H-BR" : "H-B");
     }
     // A code glued to the next column's text ("VJURONG"): keep just the code letter.
     return /^[A-Z][A-Z]{4,}$/.test(text) ? text[0] : text;
@@ -165,10 +165,10 @@ const clean = {
   },
 };
 
-// Meal Type heading not read: the column is wherever the meal codes are (H-BR, HH, H-M).
+// Meal Type heading not read: the column is wherever the meal codes are (H-BR, HH, H-M, H-B).
 export function mealByCodes(page: OcrResult, found: Columns): { left: number; right: number } | null {
   const codes = page.words.filter(
-    (w) => centreY(w) >= found.headerBottom && /^H(-?[BE8]R|-?M|H)$/.test(bare(w.text).toUpperCase()),
+    (w) => centreY(w) >= found.headerBottom && /^H(-?[BE8]R?|-?M|H)$/.test(bare(w.text).toUpperCase()),
   );
   if (codes.length < 2) return null;
   const lineHeight = medianOf(codes.map(height));

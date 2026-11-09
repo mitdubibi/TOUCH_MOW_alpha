@@ -45,7 +45,7 @@ For the email code to work, in Supabase:
 
 Organiser **Upload list** takes a CSV (our columns, or TOUCH's own sheet saved as CSV) or a photo of the printed
 list. The photo is read on the phone with Tesseract.js (`src/lib/scan/`), then every row is shown for checking before
-upload. Meal types are TOUCH's codes only: H-BR (normal), HH, H, H-M (minced). Made-up samples in TOUCH's layout are in
+upload. Meal types are TOUCH's codes only: H-BR (normal), HH, H, H-M (minced), H-B, V. Made-up samples in TOUCH's layout are in
 `public/samples/`.
 
 ## Scripts
