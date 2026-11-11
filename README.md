@@ -61,7 +61,10 @@ upload. Meal types are TOUCH's codes only: H-BR (normal), HH, H, H-M (minced), H
 ## Recipient links
 
 Each household has a private link `/t/<token>` with no login (see **Recipient links** at the bottom of an
-organiser session page). Location sharing needs https or `localhost`, so on a phone over Wi-Fi
+organiser session page). When there is no meal today it shows the next one. Big **Call TOUCH** and **Message TOUCH**
+buttons sit under the status: Call dials `TOUCH_PHONE` (set it in `.env.local` and in Vercel), and Message offers three
+ready-made messages plus **Send your text**. Messages show under **Messages from homes** on the organiser
+**Sessions** page, where each can be marked as handled. Location sharing needs https or `localhost`, so on a phone over Wi-Fi
 (`http://192.168...`) Start delivery will not work; use the deployed site or a laptop browser.
 
 ## Volunteer reminders

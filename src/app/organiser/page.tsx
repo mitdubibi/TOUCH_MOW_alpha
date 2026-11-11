@@ -3,6 +3,7 @@ import { SessionCard } from "@/components/SessionCard";
 import { requireOrganiser } from "@/lib/auth";
 import { fetchStatusesBySession, SESSION_SELECT } from "@/lib/deliveries";
 import type { SessionSummary } from "@/types/db";
+import { RecipientMessages } from "./RecipientMessages";
 import { SendRemindersForm } from "./SendRemindersForm";
 
 export default async function OrganiserHome() {
@@ -24,6 +25,7 @@ export default async function OrganiserHome() {
           Upload list
         </Link>
       </div>
+      <RecipientMessages supabase={supabase} />
       <SendRemindersForm allowPretend={process.env.NODE_ENV !== "production"} />
       {!sessions?.length && <p className="text-slate-700">No sessions yet. Upload a delivery list to create one.</p>}
       {sessions?.map((s) => (

@@ -4,6 +4,7 @@ import { AutoRefresh } from "@/components/track/AutoRefresh";
 import { addDays, formatTime, todayInSingapore } from "@/lib/dates";
 import { mealLabel } from "@/lib/meals";
 import { trackStatus, type Lang, type NextMeal, type TrackView } from "@/lib/track/status";
+import { ContactTouch } from "./ContactTouch";
 
 // A recipient's private link (sent by SMS). No login: the random token is the key.
 export const metadata: Metadata = {
@@ -111,6 +112,10 @@ export default async function TrackPage({
       <section className="flex flex-1 py-4">
         <StatusCard view={status.view} t={t} lang={lang} />
       </section>
+
+      {status.view.kind !== "invalid" && (
+        <ContactTouch token={token} phone={process.env.TOUCH_PHONE?.trim() || null} lang={lang} />
+      )}
 
       <p className="pb-2 text-center text-xl text-slate-700">{t.updates}</p>
     </main>

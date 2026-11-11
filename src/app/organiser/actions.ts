@@ -1,8 +1,21 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { requireOrganiser } from "@/lib/auth";
 import { formatClock } from "@/lib/dates";
 import { sendDueReminders } from "@/lib/sendReminders";
+
+// "Mark as handled" on a message from a home.
+export async function markRecipientMessageRead(formData: FormData) {
+  const { supabase } = await requireOrganiser();
+  const { error } = await supabase
+    .from("messages")
+    .update({ read_at: new Date().toISOString() })
+    .eq("id", String(formData.get("id")))
+    .eq("thread_type", "recipient");
+  if (error) throw new Error(error.message);
+  revalidatePath("/organiser");
+}
 
 export type SendRemindersState = { message?: string; error?: string };
 
