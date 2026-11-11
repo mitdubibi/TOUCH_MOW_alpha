@@ -23,11 +23,11 @@ Email and password are on the same screen, with a short PDPA notice under the bu
   Only accounts you made can log in (no sign-up). Make each one with their real email:
   `npm run dev-user -- friend@gmail.com volunteer "Name"` (it also prints a one-time link, handy on a laptop).
   To move an existing account to another email: `npm run change-email -- old@example.com friend@gmail.com`.
-- **Test logins**: the password is the same as the login name.
-  - `test@touch` / `test@touch`: a test volunteer, "Test volunteer". The account is made on first login.
-  - `organizer@touch` (or `organiser@touch`), same as the password: the `organizer@touch` account. Make it once as an
+- **Test logins**:
+  - `test@touch`, password `test@touch`: a test volunteer, "Test volunteer". The account is made on first login.
+  - `organizer@touch` (or `organiser@touch`), password `123456`: the `organizer@touch` account. Make it once as an
     organiser: `npm run dev-user -- organizer@touch organiser "TOUCH test"`.
-  - `ahma@touch` and `ahgong@touch`, same as the password: the meal page of two seed households (Blk 501 #03-110 and
+  - `ahma@touch` and `ahgong@touch`, no password: the meal page of two seed households (Blk 501 #03-110 and
     Blk 518 #05-123).
 
 The login page always shows first. If you are already logged in it also shows **Continue as ...** and **Log out**,

@@ -4,18 +4,18 @@ import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
-// Shared test logins for the @touch names. Each password is the login name itself, so anyone who knows the name
-// gets in. They must only ever point at made-up accounts and fake households.
+// Shared test logins for the @touch names. The passwords are written here and in the README, so anyone who reads
+// them gets in. They must only ever point at made-up accounts and fake households.
 // Staff and volunteer test logins open this Supabase account. A missing account is made on first login.
 const ACCOUNTS: Record<string, { email: string; password: string; name: string }> = {
-  "organizer@touch": { email: "organizer@touch", password: "organizer@touch", name: "TOUCH test" },
-  "organiser@touch": { email: "organizer@touch", password: "organiser@touch", name: "TOUCH test" },
+  "organizer@touch": { email: "organizer@touch", password: "123456", name: "TOUCH test" },
+  "organiser@touch": { email: "organizer@touch", password: "123456", name: "TOUCH test" },
   "test@touch": { email: "test@touch", password: "test@touch", name: "Test volunteer" },
 };
-// Elderly logins open the household's recipient page (/t/<token>), which needs no account.
-const RECIPIENTS: Record<string, { password: string; postal: string; unit: string }> = {
-  "ahma@touch": { password: "ahma@touch", postal: "640501", unit: "#03-110" },
-  "ahgong@touch": { password: "ahgong@touch", postal: "640518", unit: "#05-123" },
+// Elderly logins need no password and open the household's recipient page (/t/<token>), which needs no account.
+const RECIPIENTS: Record<string, { postal: string; unit: string }> = {
+  "ahma@touch": { postal: "640501", unit: "#03-110" },
+  "ahgong@touch": { postal: "640518", unit: "#05-123" },
 };
 
 const WRONG = "That email or password is wrong.";
@@ -49,7 +49,6 @@ export async function testLogin(name: string, password: string): Promise<{ error
 
   const home = RECIPIENTS[key];
   if (home) {
-    if (password !== home.password) return { error: WRONG };
     const { data } = await admin
       .from("units")
       .select("unit_contacts(track_token)")

@@ -36,6 +36,8 @@ export function LoginForm() {
     if (isTestLogin) {
       // Redirects on success, so this only returns with an error.
       setError((await testLogin(email, password)).error);
+    } else if (!password) {
+      setError("Type your password, or tap Email me a code.");
     } else {
       const { error } = await createClient().auth.signInWithPassword({ email: email.trim(), password });
       if (!error) return window.location.replace("/me");
@@ -143,7 +145,6 @@ export function LoginForm() {
         <span className="font-medium">Password</span>
         <input
           type="password"
-          required
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
