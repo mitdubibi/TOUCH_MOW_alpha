@@ -3,19 +3,22 @@
 
 import { todayInSingapore } from "@/lib/dates";
 import { createAdminClient } from "@/lib/supabase/admin";
-import type { DeliveryStatus, SessionStatus } from "@/types/db";
+import type { DeliveryStatus, SessionStatus, Slot } from "@/types/db";
 import { etaFor, FRESH_LOCATION_MS, type EtaUnit, type StoredRoute } from "./eta";
 
 export type Lang = "en" | "zh";
 
 export type TrackView =
   | { kind: "invalid" }
-  | { kind: "none" }
+  | { kind: "none"; next?: NextMeal }
   | { kind: "preparing"; startTime: string }
   // stopsAway/minutes are missing when the volunteer's route is not known yet.
   | { kind: "coming"; stopsAway?: number; minutes?: number }
   | { kind: "delivered" }
   | { kind: "missed" };
+
+// The household's next meal on a later day.
+export type NextMeal = { date: string; slot: Slot; startTime: string; mealType: string };
 
 type TodayRow = {
   id: string;
@@ -66,7 +69,23 @@ export async function trackStatus(token: string): Promise<{ view: TrackView; lan
   const planned = today.find((d) => d.status === "pending");
   if (planned) return { view: { kind: "preparing", startTime: planned.sessions.start_time }, lang };
 
-  return { view: { kind: "none" }, lang };
+  return { view: { kind: "none", next: await nextMeal(admin, contact.unit_id) }, lang };
+}
+
+async function nextMeal(admin: ReturnType<typeof createAdminClient>, unitId: string): Promise<NextMeal | undefined> {
+  const { data, error } = await admin
+    .from("deliveries")
+    .select("meal_type, sessions!inner(date, slot, start_time, status)")
+    .eq("unit_id", unitId)
+    .eq("status", "pending")
+    .gt("sessions.date", todayInSingapore())
+    .neq("sessions.status", "done")
+    .returns<{ meal_type: string; sessions: { date: string; slot: Slot; start_time: string } }[]>();
+  if (error) throw error;
+  const first = data
+    .map((d) => ({ date: d.sessions.date, slot: d.sessions.slot, startTime: d.sessions.start_time, mealType: d.meal_type }))
+    .sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime))[0];
+  return first;
 }
 
 async function coming(admin: ReturnType<typeof createAdminClient>, delivery: TodayRow): Promise<TrackView> {
