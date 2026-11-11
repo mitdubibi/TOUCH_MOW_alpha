@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { quickLogin } from "./actions";
+import { testLogin } from "./actions";
 
-// Volunteers: email, then the code from the email. Only accounts made by TOUCH can log in.
-// Test logins ending in @touch (organiser, elderly) skip the email; see actions.ts.
+// Email and password on one screen. Test logins ending in @touch are checked on the server (see actions.ts).
+// Volunteers made by TOUCH have no password: "Email me a code" sends a code instead. No one can sign up here.
 export function LoginForm() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
-  const [step, setStep] = useState<"email" | "code">("email");
+  const [step, setStep] = useState<"login" | "code">("login");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const isTestLogin = /@touch$/i.test(email.trim());
 
   async function sendCode() {
     const { error } = await createClient().auth.signInWithOtp({
@@ -26,16 +29,27 @@ export function LoginForm() {
     );
   }
 
-  async function onSubmitEmail(e: React.FormEvent) {
+  async function onSubmitLogin(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
-    if (/@touch$/i.test(email.trim())) {
+    if (isTestLogin) {
       // Redirects on success, so this only returns with an error.
-      setError((await quickLogin(email)).error);
+      setError((await testLogin(email, password)).error);
     } else {
-      await sendCode();
+      const { error } = await createClient().auth.signInWithPassword({ email: email.trim(), password });
+      if (!error) return window.location.replace("/me");
+      setError("That email or password is wrong. No password? Tap Email me a code.");
     }
+    setBusy(false);
+  }
+
+  async function onEmailCode() {
+    setError(null);
+    if (!/^\S+@\S+$/.test(email.trim())) return setError("Type your email first.");
+    if (isTestLogin) return setError("Test logins use a password, not a code.");
+    setBusy(true);
+    await sendCode();
     setBusy(false);
   }
 
@@ -86,13 +100,13 @@ export function LoginForm() {
           <button
             type="button"
             onClick={() => {
-              setStep("email");
+              setStep("login");
               setCode("");
               setError(null);
             }}
             className="text-brand-dark underline"
           >
-            Use a different email
+            Back to login
           </button>
           <button
             type="button"
@@ -113,18 +127,31 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmitEmail} className="mt-6 space-y-3">
+    <form onSubmit={onSubmitLogin} className="mt-6 space-y-4">
       <label className="block">
         <span className="font-medium">Email</span>
         <input
           type="email"
           required
-          autoComplete="email"
+          autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="mt-1 block w-full rounded-lg border border-slate-400 px-3 py-3 text-lg"
         />
       </label>
+      <label className="block">
+        <span className="font-medium">Password</span>
+        <input
+          type="password"
+          required
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mt-1 block w-full rounded-lg border border-slate-400 px-3 py-3 text-lg"
+        />
+      </label>
+
+
       {error && (
         <p role="alert" className="text-red-700">
           {error}
@@ -134,8 +161,20 @@ export function LoginForm() {
         disabled={busy}
         className="w-full rounded-lg bg-brand py-3 text-lg font-semibold text-white disabled:opacity-60"
       >
-        {busy ? "Please wait..." : "Continue"}
+        {busy ? "Please wait..." : "Log in"}
       </button>
+      <button
+        type="button"
+        disabled={busy}
+        onClick={onEmailCode}
+        className="w-full text-center text-brand-dark underline disabled:opacity-60"
+      >
+        No password? Email me a code
+      </button>
+      <p className="text-sm text-slate-700">
+        PDPA: by logging in, you agree TOUCH may use your name, email and delivery location only to run Meals on
+        Wheels. Contact the TOUCH coordinator to see or delete your data.
+      </p>
     </form>
   );
 }

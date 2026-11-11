@@ -26,7 +26,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       <h1 className="mt-3 text-3xl font-bold">
         <span className="text-brand">TOUCH</span> Meals on Wheels
       </h1>
-      <p className="mt-2 text-slate-700">Log in with your email. We will send you a code, no password needed.</p>
+      <p className="mt-2 text-slate-700">Log in with your email and password. No password yet? We can email you a code.</p>
       {error && ERRORS[error] && (
         <p role="alert" className="mt-4 rounded-lg bg-red-50 p-3 text-red-800">
           {ERRORS[error]}

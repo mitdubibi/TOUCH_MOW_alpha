@@ -17,20 +17,24 @@ Next.js 16 + Supabase. All data is fake. See CLAUDE.md for the brief.
 
 The installed app opens at `/login`.
 
-- **Volunteers** type their email and then the code from the email. Only accounts you made can log in (no sign-up).
-  Make each one with their real email:
+Email and password are on the same screen, with a short PDPA notice under the buttons.
+
+- **Volunteers** have no password: they type their email and tap **No password? Email me a code**.
+  Only accounts you made can log in (no sign-up). Make each one with their real email:
   `npm run dev-user -- friend@gmail.com volunteer "Name"` (it also prints a one-time link, handy on a laptop).
   To move an existing account to another email: `npm run change-email -- old@example.com friend@gmail.com`.
-- **Organiser**: `organizer@touch` (or `organiser@touch`) logs straight into the `organizer@touch` account, no
-  email. Make that account once: `npm run dev-user -- organizer@touch organiser "TOUCH test"`.
-- **Elderly**: `ahma@touch` and `ahgong@touch` open the meal page of two seed households (Blk 501 #03-110 and Blk 518
-  #05-123).
+- **Test logins**: the password is the same as the login name.
+  - `test@touch` / `test@touch`: a test volunteer, "Test volunteer". The account is made on first login.
+  - `organizer@touch` (or `organiser@touch`), same as the password: the `organizer@touch` account. Make it once as an
+    organiser: `npm run dev-user -- organizer@touch organiser "TOUCH test"`.
+  - `ahma@touch` and `ahgong@touch`, same as the password: the meal page of two seed households (Blk 501 #03-110 and
+    Blk 518 #05-123).
 
 The login page always shows first. If you are already logged in it also shows **Continue as ...** and **Log out**,
 so you can type another login to switch account.
 
-The `@touch` logins have no password, so anyone who knows them gets in. Only ever point them at made-up accounts
-and fake households (see `src/app/login/actions.ts`).
+The test passwords are written in this README, so anyone who reads it gets in. Only ever point them at made-up
+accounts and fake households (see `src/app/login/actions.ts`).
 
 For the email code to work, in Supabase:
 
